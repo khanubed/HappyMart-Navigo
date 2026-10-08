@@ -1,0 +1,13 @@
+{
+  "extends": "@workspace/typescript-config/base.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@workspace/typescript-config/types": ["../typescript-config/src/types/index.ts"],
+      "@workspace/typescript-config/types/*": ["../typescript-config/src/types/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

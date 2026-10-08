@@ -1,0 +1,29 @@
+{
+  "extends": "@workspace/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@workspace/ui/*": ["../../packages/ui/src/*"],
+      "@workspace/typescript-config/types": ["../../packages/typescript-config/src/types/index.ts"],
+      "@workspace/typescript-config/types/*": ["../../packages/typescript-config/src/types/*"],
+      "@workspace/mock-data": ["../../packages/mock-data/src/index.ts"],
+      "@workspace/mock-data/*": ["../../packages/mock-data/src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "../../node_modules"]
+}

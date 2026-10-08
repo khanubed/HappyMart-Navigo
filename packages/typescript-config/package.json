@@ -1,0 +1,19 @@
+{
+  "name": "@workspace/typescript-config",
+  "version": "0.0.0",
+  "private": true,
+  "license": "PROPRIETARY",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "*.json",
+    "src"
+  ],
+  "exports": {
+    "./types": "./src/types/index.ts",
+    "./types/*": "./src/types/*.ts",
+    "./*.json": "./*.json",
+    "./*": "./*"
+  }
+}
