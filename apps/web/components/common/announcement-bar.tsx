@@ -43,6 +43,7 @@ export function AnnouncementBar({
         <button
           type="button"
           onClick={onActionClick}
+          suppressHydrationWarning
           className="ml-2 font-bold underline underline-offset-2 transition-colors hover:text-accent"
         >
           {actionLabel}
@@ -53,6 +54,7 @@ export function AnnouncementBar({
         type="button"
         aria-label="Dismiss announcement"
         onClick={() => dispatch(dismissAnnouncement(id))}
+        suppressHydrationWarning
         className="absolute top-1/2 right-3 -translate-y-1/2 rounded p-1 text-primary-foreground/80 transition-colors hover:bg-white/10 hover:text-primary-foreground"
       >
         <X className="size-3.5" />

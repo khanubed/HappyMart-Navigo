@@ -11,13 +11,13 @@ import {
   Menu,
   Phone,
   Sparkles,
+  LayoutGrid,
 } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import { Badge } from "@workspace/ui/components/badge"
 import { ThemeToggle } from "@/components/common/theme-toggle"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { setLanguage } from "@/features/ui/localeSlice"
-import { openCartDrawer } from "@/features/cart/cartSlice"
 import { openAuthModal, toggleMobileMenu } from "@/features/ui/uiSlice"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -25,9 +25,13 @@ export function Header() {
   const dispatch = useAppDispatch()
   const locale = useAppSelector((state) => state.locale.language)
   const user = useAppSelector((state) => state.auth.user)
+  const cartItems = useAppSelector((state) => state.cart.items)
   const [searchQuery, setSearchQuery] = useState("")
 
   const isZh = locale === "zh-HK"
+
+  const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+  const cartSubtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   const toggleLang = () => {
     dispatch(setLanguage(isZh ? "en" : "zh-HK"))
@@ -61,7 +65,9 @@ export function Header() {
             </a>
             <span className="text-border">|</span>
             <button
+              type="button"
               onClick={toggleLang}
+              suppressHydrationWarning
               className="cursor-pointer font-medium transition-colors hover:text-primary"
             >
               {isZh ? "English" : "繁體中文"}
@@ -73,16 +79,16 @@ export function Header() {
       {/* Main Header Row */}
       <div className="max-w-8xl mx-auto flex h-18 items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:gap-8 lg:px-8">
         {/* Left: Mobile Menu Toggle & Brand Logo */}
-        <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-foreground lg:hidden"
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            className="flex size-10 min-h-[44px] min-w-[44px] cursor-pointer touch-manipulation items-center justify-center rounded-lg text-foreground hover:bg-muted active:scale-95 transition-all lg:hidden"
             onClick={() => dispatch(toggleMobileMenu())}
             aria-label="Open navigation menu"
+            suppressHydrationWarning
           >
-            <Menu className="size-6" />
-          </Button>
+            <Menu className="size-6 pointer-events-none" />
+          </button>
 
           <Link
             href="/"
@@ -107,6 +113,24 @@ export function Header() {
               </span>
             </div>
           </Link>
+
+          {/* All Products Nav Button */}
+          <Link
+            href="/products"
+            className="hidden items-center gap-1.5 rounded-xl border border-border/70 bg-muted/40 px-3 py-2 text-xs font-bold text-foreground transition-all hover:border-primary hover:bg-primary/5 hover:text-primary active:scale-95 sm:inline-flex"
+          >
+            <Sparkles className="size-3.5 text-accent" />
+            <span>{isZh ? "全部商品" : "All Products"}</span>
+          </Link>
+
+          {/* Categories Nav Button */}
+          <Link
+            href="/categories"
+            className="hidden items-center gap-1.5 rounded-xl border border-border/70 bg-muted/40 px-3 py-2 text-xs font-bold text-foreground transition-all hover:border-primary hover:bg-primary/5 hover:text-primary active:scale-95 md:inline-flex"
+          >
+            <LayoutGrid className="size-3.5 text-primary" />
+            <span>{isZh ? "全館分類" : "Categories"}</span>
+          </Link>
         </div>
 
         {/* Center: Large Dominant Search Bar (Occupies Most Width) */}
@@ -126,6 +150,7 @@ export function Header() {
 
             <input
               type="search"
+              suppressHydrationWarning
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={
@@ -150,8 +175,10 @@ export function Header() {
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Quick Lang switcher (Mobile/tablet) */}
           <button
+            type="button"
             onClick={toggleLang}
-            className="rounded-md border border-border bg-muted/50 px-2 py-1 text-xs font-bold text-foreground transition-colors hover:bg-muted lg:hidden"
+            suppressHydrationWarning
+            className="flex min-h-[36px] min-w-[36px] cursor-pointer touch-manipulation items-center justify-center rounded-md border border-border bg-muted/50 px-2.5 py-1 text-xs font-bold text-foreground transition-colors hover:bg-muted active:scale-95 lg:hidden"
           >
             {isZh ? "EN" : "繁中"}
           </button>
@@ -186,22 +213,30 @@ export function Header() {
             </div>
           </Button>
 
-          {/* Cart Button */}
-          <Button
-            variant="default"
-            onClick={() => dispatch(openCartDrawer())}
-            className="group flex h-10 items-center gap-2 rounded-xl px-3.5 font-bold shadow-xs"
+          {/* Cart Link to Dedicated /cart Page */}
+          <Link
+            href="/cart"
+            className="group flex h-10 min-h-[40px] cursor-pointer touch-manipulation items-center gap-2 rounded-xl bg-primary text-primary-foreground px-3.5 font-bold shadow-xs hover:bg-primary/90 transition-all active:scale-95"
+            aria-label={isZh ? `購物車，共有 ${cartItemCount} 件商品` : `Shopping Cart, ${cartItemCount} items`}
           >
             <div className="relative">
               <ShoppingCart className="size-4 transition-transform group-hover:scale-110" />
-              <span className="absolute -top-2 -right-2 flex size-4 items-center justify-center rounded-full bg-accent text-[10px] leading-none font-extrabold text-accent-foreground">
-                3
-              </span>
+              {cartItemCount > 0 && (
+                <span
+                  suppressHydrationWarning
+                  className="absolute -top-2 -right-2 flex size-4 items-center justify-center rounded-full bg-accent text-[10px] leading-none font-extrabold text-accent-foreground"
+                >
+                  {cartItemCount > 99 ? "99+" : cartItemCount}
+                </span>
+              )}
             </div>
-            <span className="hidden font-mono text-sm sm:inline-block">
-              HK$240.50
+            <span
+              suppressHydrationWarning
+              className="hidden font-mono text-sm sm:inline-block"
+            >
+              HK${cartSubtotal.toFixed(2)}
             </span>
-          </Button>
+          </Link>
         </div>
       </div>
 
@@ -216,9 +251,10 @@ export function Header() {
           }}
           className="relative w-full"
         >
-          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
+            suppressHydrationWarning
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={
@@ -226,7 +262,7 @@ export function Header() {
                 ? "搜尋印度香米、全麥麵粉、香料..."
                 : "Search rice, atta, spices, brands..."
             }
-            className="h-10 w-full rounded-lg border border-border bg-muted/50 pr-4 pl-9 text-sm transition-all placeholder:text-muted-foreground focus:border-transparent focus:bg-background focus:ring-2 focus:ring-primary focus:outline-none"
+            className="h-10 w-full rounded-lg border border-border bg-muted/50 pr-4 pl-9 text-sm transition-all placeholder:text-muted-foreground focus:border-transparent focus:bg-background focus:ring-2 focus:ring-primary focus:outline-none touch-manipulation"
           />
         </form>
       </div>

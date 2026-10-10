@@ -69,6 +69,7 @@ export function QuantityStepper({
     >
       <button
         type="button"
+        suppressHydrationWarning
         aria-label={isAtMin && showDeleteAtMin ? "Remove item" : "Decrease quantity"}
         onClick={handleDecrement}
         disabled={disabled || (isAtMin && !showDeleteAtMin)}
@@ -90,6 +91,7 @@ export function QuantityStepper({
 
       <button
         type="button"
+        suppressHydrationWarning
         aria-label="Increase quantity"
         onClick={handleIncrement}
         disabled={disabled || isAtMax}

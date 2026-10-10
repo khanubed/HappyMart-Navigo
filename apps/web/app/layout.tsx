@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { StoreProvider } from "@/components/store-provider"
 import { cn } from "@workspace/ui/lib/utils"
 
+import { StorefrontShell } from "@/components/layout/storefront-shell"
+
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
@@ -28,9 +30,11 @@ export default function RootLayout({
         geist.variable
       )}
     >
-      <body>
+      <body suppressHydrationWarning>
         <StoreProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <StorefrontShell>{children}</StorefrontShell>
+          </ThemeProvider>
         </StoreProvider>
       </body>
     </html>

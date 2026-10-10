@@ -6,20 +6,37 @@ import { dismissAnnouncement, setCookieConsent } from '@/features/ui/uiSlice';
 import {
   setStep,
   setSelectedAddress,
+  setCustomAddress,
   setDeliverySlot,
+  setDeliveryInstructions,
   setDeliveryNotes,
   setGuestContact,
+  setPaymentMethod,
   setCouponCode,
   setIdempotencyKey,
   setPaymentStatus,
+  setTermsAccepted,
   resetCheckout,
 } from '@/features/checkout/checkoutSlice';
+import {
+  addToCart,
+  updateQuantity,
+  removeFromCart,
+  undoRemove,
+  saveForLater,
+  moveToCart,
+  removeSavedItem,
+  applyCoupon,
+  removeCoupon,
+  clearCart,
+} from '@/features/cart/cartSlice';
 
 const THEME_KEY = 'happymart_theme';
 const LOCALE_KEY = 'happymart_locale';
 const SEARCH_KEY = 'happymart_recent_searches';
 const UI_PREFS_KEY = 'happymart_ui_prefs';
 const CHECKOUT_KEY = 'happymart_checkout_draft';
+const CART_KEY = 'happymart_cart_data';
 
 export function loadPersisted(): Record<string, any> {
   if (typeof window === 'undefined') {
@@ -30,8 +47,10 @@ export function loadPersisted(): Record<string, any> {
 
   try {
     const savedTheme = localStorage.getItem(THEME_KEY);
-    if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
+    if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
       preloaded.theme = { mode: savedTheme };
+    } else {
+      preloaded.theme = { mode: 'light' };
     }
 
     const savedLocale = localStorage.getItem(LOCALE_KEY);
@@ -63,6 +82,21 @@ export function loadPersisted(): Record<string, any> {
     const savedCheckout = sessionStorage.getItem(CHECKOUT_KEY);
     if (savedCheckout) {
       preloaded.checkout = JSON.parse(savedCheckout);
+    }
+
+    const savedCart = localStorage.getItem(CART_KEY);
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      preloaded.cart = {
+        items: parsedCart.items ?? [],
+        savedItems: parsedCart.savedItems ?? [],
+        appliedCoupon: parsedCart.appliedCoupon ?? null,
+        pendingItemIds: [],
+        lastAddedItemId: null,
+        lastRemovedItem: null,
+        isDrawerOpen: false,
+        notification: null,
+      };
     }
   } catch (err) {
     console.warn('Failed to load persisted Redux state:', err);
@@ -134,12 +168,16 @@ export function persistListeners(listener: ListenerMiddlewareInstance) {
     matcher: isAnyOf(
       setStep,
       setSelectedAddress,
+      setCustomAddress,
       setDeliverySlot,
+      setDeliveryInstructions,
       setDeliveryNotes,
       setGuestContact,
+      setPaymentMethod,
       setCouponCode,
       setIdempotencyKey,
       setPaymentStatus,
+      setTermsAccepted,
       resetCheckout
     ),
     effect: (_, api) => {
@@ -150,6 +188,35 @@ export function persistListeners(listener: ListenerMiddlewareInstance) {
             CHECKOUT_KEY,
             JSON.stringify(state.checkout)
           );
+        } catch { }
+      }
+    },
+  });
+
+  // Persist Cart in localStorage
+  listener.startListening({
+    matcher: isAnyOf(
+      addToCart,
+      updateQuantity,
+      removeFromCart,
+      undoRemove,
+      saveForLater,
+      moveToCart,
+      removeSavedItem,
+      applyCoupon,
+      removeCoupon,
+      clearCart
+    ),
+    effect: (_, api) => {
+      if (typeof window !== 'undefined') {
+        try {
+          const state = api.getState() as any;
+          const cartData = {
+            items: state.cart.items,
+            savedItems: state.cart.savedItems,
+            appliedCoupon: state.cart.appliedCoupon,
+          };
+          localStorage.setItem(CART_KEY, JSON.stringify(cartData));
         } catch { }
       }
     },

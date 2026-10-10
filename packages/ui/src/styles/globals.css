@@ -50,6 +50,12 @@
   --radius-lg: calc(var(--radius) * 1.5);
   --radius-xl: calc(var(--radius) * 2);
   --radius-full: 9999px;
+
+  --container-8xl: 90rem;
+}
+
+@utility max-w-8xl {
+  max-width: 90rem;
 }
 
 :root {

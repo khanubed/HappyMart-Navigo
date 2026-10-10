@@ -25,10 +25,11 @@
 > Applications should import from `@workspace/typescript-config/types` instead of declaring duplicate local interfaces.
 
 ### Exported Shared Types Inventory:
+
 1. **Identity & Auth:** `User`, `StaffUser`, `UserRole`, `AuthStatus`
-2. **Catalogue:** `Category`, `Brand`, `Product`, `ProductVariant`, `ProductBadge`
+2. **Catalogue:** `ParentCategory`, `Category`, `Subcategory`, `Brand` (with `nameEn`, `nameZh`, `descriptionEn`, `descriptionZh`, `isActive`, `sortOrder`), `Country`, `Product` (with `nutrition`, `allergens`, `usageInstructions`, `reviews`), `ProductVariant`, `ProductNutrition`, `ProductReviewItem`, `ProductBadge`, `Banner`, `Collection`
 3. **Cart & Commerce:** `CartItem`, `Cart`, `ApiResponse<T>`, `ApiError`
-4. **Checkout & Logistics:** `DeliveryType`, `DeliverySlot`, `HongKongAddress`, `GuestContact`, `PaymentStatus`, `CheckoutDraft`
+4. **Checkout & Logistics:** `DeliveryType`, `DeliverySlot`, `HongKongAddress`, `GuestContact`, `PaymentStatus`, `CheckoutDraft`, `Order`
 5. **Preferences:** `ThemeMode`, `LanguageLocale`
 
 ---
@@ -117,3 +118,68 @@
 - [x] Installed `swiper` in `apps/web` and built reusable, production-grade `HeroCarousel` ([hero-carousel.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/commerce/hero-carousel.tsx)) featuring full-width/full-height layout, cross-fade effect, autoplay with pause-on-hover, custom arrow controls, and slide counter. Integrated into [hero-section.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/home/hero-section.tsx) and documented in [resuable-components.md](file:///d:/CODING/NavigoTech%20Innovation/Happymart/docs/architecture.md/resuable-components.md).
 - [x] Generated authentic South Asian supermarket campaign poster backgrounds for all 4 campaigns (`ramadan-campaign-bg.jpg`, `diwali-campaign-bg.jpg`, `pakistan-campaign-bg.jpg`, `staples-campaign-bg.jpg`), saved in `apps/web/public/images/banners/`, wired in `@workspace/mock-data`, and rendered with dual readability gradients and zoom micro-interactions in `HeroCarousel`.
 - [x] Updated [country-section.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/home/country-section.tsx) with square-shaped (`aspect-square`) landmark/produce imagery for all 6 origin countries (India, Pakistan, Bangladesh, Nepal, Sri Lanka, UAE) with floating flag pills, SKU count badges, and smooth hover zoom interactions.
+- [x] Implemented reusable `SectionHeader` component ([section-header.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/common/section-header.tsx)) featuring semantic eyebrow label, customizable headline with serif/italic accent typography, explanatory subtitle, and optional right-aligned "View All" link. Refactored homepage sections (`category-grid.tsx`, `country-section.tsx`, `brand-carousel.tsx`, `festival-collections.tsx`, `product-rail.tsx`, `browse-carousel.tsx`, `reorder-section.tsx`) to eliminate duplicate header markup.
+- [x] Re-architected catalog hierarchy to support simplified two-level department and subcategory structure:
+  - Created `packages/mock-data/src/parent-categories.ts` declaring 7 flagship supermarket departments: Food & Beverages, Wellness Store, Personal & Beauty Care, Baby Care, Home Care, Ayurvedic Products, and Sports Store.
+  - Added localized subcategories with authentic photography and mapped products accordingly.
+  - Upgraded `MegaMenu` ([mega-menu.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/layout/mega-menu.tsx)) with dynamic multi-column flyout displaying subcategory cards with item counts and featured heritage brand cards with icon logos.
+- [x] Implemented production-grade **Category-Wise Product Listing Page** system inspired by Bazaar5 & DMart density:
+  - Built comprehensive catalog component suite under `apps/web/components/catalog/`:
+    - `CategoryBreadcrumbs`: Semantic breadcrumb trail supporting bilingual labels.
+    - `CategoryHeading`: Clean page heading with total SKU count badge and localized descriptions.
+    - `SubcategoryRail`: Horizontally scrollable subcategory chips with active state indicators and count badges.
+    - `ProductListingToolbar`: View mode toggles (grid vs. list), sort selector (Recommended, Price low-high, Price high-low, Popularity, Rating), active filter chips with 1-click removal, and mobile filter triggers.
+    - `ProductFilterSidebar`: Sticky faceted sidebar with dynamic facet counting for price range, discount tiers, brands with search, countries of origin, dietary preferences (Vegetarian, Halal), pack sizes, and in-stock toggles.
+    - `ProductFilterDrawer`: Mobile bottom sheet filter drawer with instant count feedback and reset actions.
+    - `ProductGrid`: Dense 2-column (mobile) to 4-column (desktop) responsive grid with integrated `AddToCartButton`, stepper controls, dietary indicators, and empty state fallbacks.
+    - `ProductListingView`: Client orchestrator managing bidirectionally synchronized URL query parameters (`priceMin`, `priceMax`, `discount`, `brands`, `countries`, `dietary`, `sort`, `sub`, `inStock`).
+  - Implemented dynamic routes:
+    - `/categories` (Master category directory)
+    - `/categories/[categorySlug]` (Aisle product listing)
+    - `/categories/[categorySlug]/[subcategorySlug]` (Subcategory filtered listing)
+    - `/departments/[departmentSlug]` (Department-level product listing)
+    - `/search` (Global catalog search with query-driven filtering)
+- [x] Built reusable `CategorySeoContent` component ([category-seo-content.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/catalog/category-seo-content.tsx)) placed below product listings, providing contextual buying guides, South Asian ingredient sourcing notes, and expandable bilingual FAQ accordions.
+- [x] Architected and implemented complete **Browse Brands Directory** (`/brands`) & **Brand Detail Pages** (`/brands/[slug]`):
+  - Created reusable brand components under `apps/web/components/brands/`:
+    - `BrandCard` ([brand-card.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/brands/brand-card.tsx)): Dense 155–165px directory card with 100–110px logo container, fallback monogram avatar, brand title, and verified product count badge.
+    - `BrandSearch` ([brand-search.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/brands/brand-search.tsx)): Debounced brand search input with clear button (`X`), accessible label (`sr-only`), and instant client filtering.
+    - `BrandAlphabetFilter` ([brand-alphabet-filter.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/brands/brand-alphabet-filter.tsx)): Horizontal tabs (`Popular`, `A–Z`, `0–9`) synced with URL query param `?letter=...`, mobile scrollable, and disabled states for letters with zero brands.
+    - `BrandDirectoryView` ([brand-directory-view.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/brands/brand-directory-view.tsx)): Client orchestrator managing search, letter tabs, curated Popular Brands grid (8 columns), grouped A–Z directory, and empty states.
+    - `BrandSeoSection` ([brand-seo-section.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/brands/brand-seo-section.tsx)): Brand authenticity guarantees and brand FAQ accordion.
+    - `BrandHeader` ([brand-header.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/brands/brand-header.tsx)): Brand landing banner with logo, verified origin country badge, product count badge, authenticity guarantee, and localized brand backstory.
+  - Server routes:
+    - `apps/web/app/brands/page.tsx`: Server component with SEO metadata, BreadcrumbList & CollectionPage JSON-LD, Suspense fallback.
+    - `apps/web/app/brands/[brandSlug]/page.tsx`: Brand landing page with `ProductListingView`, BrandHeader, and standard 404 (`notFound()`) for unknown slugs.
+- [x] Expanded shared mock dataset in `packages/mock-data/src/brands.ts` from 20 to **45 authentic brands** across India, Pakistan, Bangladesh, Nepal, Sri Lanka, and UAE covering A–Z and 0–9 with selector query functions (`getAllBrands`, `getFeaturedBrands`, `getBrandBySlug`, `searchBrands`, `getBrandsByInitial`, `getAvailableBrandInitials`, `getBrandLogo`).
+- [x] Architected and delivered complete **Product Detail Page** system (`/products/[slug]`):
+  - Created modular product components under `apps/web/components/product/`:
+    - `ProductGallery` ([product-gallery.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/product-gallery.tsx)): 50–55% desktop gallery with Next.js image optimization, zoom toggle, thumbnails rail, prev/next buttons, and pinned dietary/offer badges.
+    - `ProductVariantSelector` ([product-variant-selector.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/product-variant-selector.tsx)): Interactive pack-size pill buttons displaying variant price, availability state, and selected indicator.
+    - `ProductPurchasePanel` ([product-purchase-panel.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/product-purchase-panel.tsx)): Brand link, single `H1`, ratings & reviews counter, selling price with MRP strikethrough, discount %, unit price (`HK$XX / kg`), stock status, quantity stepper with `AddToCartButton`, HK delivery info box (free shipping over HK$500, next-day window), and social share/wishlist triggers.
+    - `ProductInformation` ([product-information.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/product-information.tsx)): Comprehensive tabbed panel covering About Product, 2-column Specifications table, Ingredients & Nutrition Facts table, Cooking & Storage Guidelines, and Customer Reviews with star breakdowns.
+    - `ProductFaq` ([product-faq.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/product-faq.tsx)): Contextual product FAQs with accessible accordion toggles addressing origin verification, HK humid storage, delivery times, and 7-day damage replacement.
+    - `RelatedProducts` ([related-products.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/related-products.tsx)): Recommendations for "More from this Brand" and "Similar Products in Category" reusing `ProductCard`.
+    - `MobileStickyPurchaseBar` ([mobile-sticky-purchase-bar.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/mobile-sticky-purchase-bar.tsx)): Scroll-triggered bottom bar on mobile featuring thumbnail, active price, and Add to Cart button.
+    - `ProductDetailView` ([product-detail-view.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/product/product-detail-view.tsx)): Client orchestrator managing active variant state.
+  - Server route:
+    - `apps/web/app/products/[productSlug]/page.tsx`: Full server component with `generateMetadata`, JSON-LD `Product`, `Offer`, and `BreadcrumbList` schemas, and 404 (`notFound()`) for nonexistent slugs.
+- [x] Fixed and unified product card routing across the application ([product-card.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/commerce/product-card.tsx) and [reorder-section.tsx](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/components/home/reorder-section.tsx)), routing image and title clicks to `/products/${product.slug || product.id}`.
+- [x] Generated Next.js App Router dynamic XML Sitemap ([apps/web/app/sitemap.ts](file:///d:/CODING/NavigoTech%20Innovation/Happymart/apps/web/app/sitemap.ts)) indexing all departments, categories, `/brands`, 45 individual brand pages, and all product detail pages.
+- [x] Verified zero TypeScript errors (`tsc --noEmit`), zero ESLint errors, and successful Next.js production build (`next build`) generating all static and dynamic routes.
+- [x] **Catalog Dataset Reorganization & Relational Alignment (Approved & Executed)**:
+  - Reorganized `packages/mock-data/src/categories.ts` into a strict 2-level hierarchy: 8 Parent Departments (Level 1) + 34 Child Aisles (Level 2).
+  - Ensured 100% unique category image URLs (42/42 unique assets: 12 local files strictly 1-to-1 + 30 high-res web assets).
+  - Populated products in `packages/mock-data/src/products.ts` covering 100% of all 34 subcategories (71 total products).
+  - Ensured 100% unique product image URLs (71/71 unique images, zero duplicates).
+  - Synchronized `packages/mock-data/src/brands.ts`: pruned all 0-product orphaned brands (51 active brands, all with authentic products, valid logos, and exact declared `productCount` match).
+  - Automated CI test suite `scratch/validate-catalog.cjs` passed with 0 errors and 0 warnings.
+  - Verified full TypeScript compilation (`npm run typecheck`) across all monorepo workspaces with 0 errors.
+  - Replaced dead/blocked Amazon CDN links (`m.media-amazon.com` 404s) with 100% verified live 200 OK assets across all products & categories.
+  - Added robust `onError` fallback handling in `ProductCard` to gracefully display monogram badges upon network drop.
+  - Verified and fixed category data flow across `/categories`, `/categories/[categorySlug]`, and `/categories/[categorySlug]/[subcategorySlug]`:
+    - Updated `getProductsByCategory` and `getProductsBySubcategory` to resolve slugs to category IDs dynamically (eliminating previous 0-product bug on subcategory slug queries).
+    - Updated `filterCatalog` in `catalog-filter.ts` to match subcategories by both slug and ID.
+    - Updated all navigation links in `categories/page.tsx` and `subcategory-rail.tsx` to route cleanly into `/categories/${dept.slug}` and `/categories/${dept.slug}/${sub.slug}`.
+
+

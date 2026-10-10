@@ -6,6 +6,7 @@ import { Button } from "@workspace/ui/components/button"
 import { QuantityStepper } from "./quantity-stepper"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { closeCartDrawer } from "@/features/cart/cartSlice"
+import { products } from "@workspace/mock-data"
 
 export function CartDrawer() {
   const dispatch = useAppDispatch()
@@ -14,6 +15,8 @@ export function CartDrawer() {
   const isZh = locale === "zh-HK"
 
   if (!isDrawerOpen) return null
+
+  const getImg = (id: string) => products.find((p) => p.id === id)?.images[0] || ""
 
   // Sample active cart data for demonstration
   const sampleItems = [
@@ -24,7 +27,7 @@ export function CartDrawer() {
       packSize: "5 kg",
       price: 128.0,
       quantity: 1,
-      image: "/images/products/india-gate-5kg.jpg",
+      image: getImg("prod-ig-basmati-5kg"),
     },
     {
       id: "var-sh-bb-60g",
@@ -33,7 +36,7 @@ export function CartDrawer() {
       packSize: "60 g",
       price: 14.5,
       quantity: 2,
-      image: "/images/products/shan-biryani.jpg",
+      image: getImg("prod-shan-bombay-biryani"),
     },
     {
       id: "var-ash-10kg",
@@ -42,7 +45,7 @@ export function CartDrawer() {
       packSize: "10 kg",
       price: 98.0,
       quantity: 1,
-      image: "/images/products/aashirvaad-10kg.jpg",
+      image: getImg("prod-aashirvaad-atta-10kg"),
     },
   ]
 

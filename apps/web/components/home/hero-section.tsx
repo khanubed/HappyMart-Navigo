@@ -10,11 +10,7 @@ export function HeroSection() {
 
   return (
     <section className="w-full">
-      <HeroCarousel
-        banners={campaigns}
-        fullWidth={true}
-        autoplayDelay={5500}
-      />
+      <HeroCarousel banners={campaigns} fullWidth={true} autoplayDelay={5500} />
     </section>
   )
 }

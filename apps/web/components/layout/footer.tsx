@@ -4,9 +4,10 @@ import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Phone, Mail, MapPin, Globe, CreditCard } from "lucide-react"
-import { categories, countries } from "@workspace/mock-data"
+import { parentCategories, categories, countries } from "@workspace/mock-data"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { setLanguage } from "@/features/ui/localeSlice"
+import { cn } from "@workspace/ui/lib/utils"
 
 export function Footer() {
   const dispatch = useAppDispatch()
@@ -14,7 +15,7 @@ export function Footer() {
   const isZh = locale === "zh-HK"
 
   return (
-    <footer className="mt-16 border-t border-border bg-card pt-12 pb-24 text-foreground transition-colors lg:pb-12">
+    <footer className="mt-4 border-t border-border bg-card pt-4 pb-24 text-foreground transition-colors lg:pb-12">
       <div className="max-w-8xl mx-auto space-y-12 px-4 sm:px-6 lg:px-8">
         {/* Top Links Grid */}
         <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
@@ -57,22 +58,30 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Shop by Category */}
+          {/* Column 2: Shop by Department */}
           <div className="space-y-3">
             <h4 className="font-heading text-xs font-bold tracking-wider text-foreground uppercase">
-              {isZh ? "熱門類別" : "Shop Aisles"}
+              {isZh ? "熱門專區" : "Departments"}
             </h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
-              {categories.slice(0, 6).map((cat) => (
-                <li key={cat.id}>
+              {parentCategories.map((p) => (
+                <li key={p.id}>
                   <Link
-                    href={`/categories/${cat.slug}`}
+                    href={`/categories/${p.slug}`}
                     className="transition-colors hover:text-primary"
                   >
-                    {isZh ? cat.nameZh : cat.nameEn}
+                    {isZh ? p.nameZh : p.nameEn}
                   </Link>
                 </li>
               ))}
+              <li className="pt-1">
+                <Link
+                  href="/brands"
+                  className="font-semibold text-primary transition-colors hover:underline"
+                >
+                  {isZh ? "★ 瀏覽全部品牌" : "★ Browse All Brands"}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -181,23 +190,27 @@ export function Footer() {
             <div className="flex items-center overflow-hidden rounded-lg border border-border bg-background">
               <button
                 type="button"
+                suppressHydrationWarning
                 onClick={() => dispatch(setLanguage("en"))}
-                className={`px-2.5 py-1 font-bold transition-colors ${
+                className={cn(
+                  "px-2.5 py-1 font-bold transition-colors",
                   !isZh
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
-                }`}
+                )}
               >
                 EN
               </button>
               <button
                 type="button"
+                suppressHydrationWarning
                 onClick={() => dispatch(setLanguage("zh-HK"))}
-                className={`px-2.5 py-1 font-bold transition-colors ${
+                className={cn(
+                  "px-2.5 py-1 font-bold transition-colors",
                   isZh
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
-                }`}
+                )}
               >
                 繁中
               </button>

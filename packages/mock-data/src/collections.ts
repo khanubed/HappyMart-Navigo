@@ -1,4 +1,11 @@
-import type { Collection } from "@workspace/typescript-config/types"
+import type { Collection, Product } from "@workspace/typescript-config/types"
+import { products } from "./products"
+
+export interface CollectionProductRelation {
+  collectionId: string
+  productId: string
+  sortOrder: number
+}
 
 export const festivalCollections: Collection[] = [
   {
@@ -19,6 +26,9 @@ export const festivalCollections: Collection[] = [
       "prod-shan-bombay-biryani",
       "prod-ig-basmati-5kg",
     ],
+    startsAt: "2026-02-15T00:00:00Z",
+    endsAt: "2026-04-10T23:59:59Z",
+    isActive: true,
   },
   {
     id: "col-pakistani",
@@ -36,7 +46,10 @@ export const festivalCollections: Collection[] = [
       "prod-shan-bombay-biryani",
       "prod-national-mixed-pickle-1kg",
       "prod-rooh-afza-800ml",
+      "prod-shan-nihari-masala",
     ],
+    startsAt: "2026-01-01T00:00:00Z",
+    isActive: true,
   },
   {
     id: "col-indian-essentials",
@@ -56,6 +69,8 @@ export const festivalCollections: Collection[] = [
       "prod-tata-toor-dal-1kg",
       "prod-amul-ghee-1l",
     ],
+    startsAt: "2026-01-01T00:00:00Z",
+    isActive: true,
   },
   {
     id: "col-tea-lovers",
@@ -68,11 +83,33 @@ export const festivalCollections: Collection[] = [
     badgeZh: "下午茶時光",
     bannerImageUrl: "/images/collections/tea-banner.jpg",
     ctaLabelEn: "Shop Chai",
-    ctaLabelZh: "選購茶品",
+    ctaLabelZh: "選購茶點",
     productIds: [
       "prod-dilmah-ceylon-tea-100tb",
+      "prod-tata-tea-gold-500g",
       "prod-pran-toast-rusk-300g",
       "prod-britannia-good-day-600g",
     ],
+    startsAt: "2026-01-01T00:00:00Z",
+    isActive: true,
   },
 ]
+
+// Join table mapping collection_products
+export const collectionProducts: CollectionProductRelation[] = festivalCollections.flatMap(
+  (col) =>
+    col.productIds.map((productId, index) => ({
+      collectionId: col.id,
+      productId,
+      sortOrder: index + 1,
+    }))
+)
+
+// Helper: Get hydrated products for a collection
+export function getCollectionProducts(collectionId: string): Product[] {
+  const collection = festivalCollections.find((c) => c.id === collectionId)
+  if (!collection) return []
+  return collection.productIds
+    .map((id) => products.find((p) => p.id === id))
+    .filter((p): p is Product => p !== undefined)
+}

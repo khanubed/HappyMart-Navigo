@@ -1,95 +1,72 @@
 "use client"
 
-import React, { useState } from "react"
-import { RotateCcw, ShoppingBag, Check } from "lucide-react"
-import { Button } from "@workspace/ui/components/button"
-import { sampleOrderHistory } from "@workspace/mock-data"
-import { useAppDispatch, useAppSelector } from "@/hooks/store"
-import { openCartDrawer } from "@/features/cart/cartSlice"
+import React from "react"
+import { products } from "@workspace/mock-data"
+import { useAppSelector } from "@/hooks/store"
+import { BrowseCarousel, type BrowseCarouselItem } from "./browse-carousel"
+
+// High-frequency staple grocery items for quick re-order ("Buy Again")
+const REORDER_PRODUCT_IDS = [
+  "prod-ig-basmati-5kg",
+  "prod-aashirvaad-atta-10kg",
+  "prod-shan-bombay-biryani",
+  "prod-amul-ghee-1l",
+  "prod-tata-toor-dal-1kg",
+  "prod-mdh-deggi-mirch-100g",
+  "prod-haldirams-bhujia-400g",
+  "prod-tata-tea-gold-500g",
+]
 
 export function ReorderSection() {
-  const dispatch = useAppDispatch()
   const locale = useAppSelector((state) => state.locale.language)
   const isZh = locale === "zh-HK"
-  const [reordered, setReordered] = useState(false)
 
-  const pastOrder = sampleOrderHistory[0]
-  if (!pastOrder || !pastOrder.items.length) return null
+  const reorderProducts = REORDER_PRODUCT_IDS.map((id) =>
+    products.find((p) => p.id === id)
+  ).filter((p): p is (typeof products)[number] => Boolean(p))
 
-  const handleReorderAll = () => {
-    setReordered(true)
-    dispatch(openCartDrawer())
-    setTimeout(() => setReordered(false), 3000)
+  const displayProducts = reorderProducts.length > 0 ? reorderProducts : products.slice(0, 8)
+
+  if (displayProducts.length === 0) {
+    return null
   }
 
+  const items: BrowseCarouselItem[] = displayProducts.map((product) => {
+    const defaultVariant =
+      product.variants.find((v) => v.isDefault) || product.variants[0]
+    const price = (defaultVariant?.priceCents ?? 0) / 100
+    const packSize = defaultVariant?.packSize
+
+    return {
+      id: product.id,
+      href: `/p/${product.slug || product.id}`,
+      title: isZh ? product.titleZh : product.titleEn,
+      subtitle: packSize
+        ? `HK$${price.toFixed(2)} • ${packSize}`
+        : `HK$${price.toFixed(2)}`,
+      imageUrl: product.images[0],
+      fallbackChar: product.brandName?.charAt(0) || product.titleEn.charAt(0) || "P",
+    }
+  })
+
   return (
-    <section className="max-w-8xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-      <div className="space-y-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-secondary/50 via-background to-secondary/30 p-5 shadow-2xs sm:p-7">
-        {/* Header */}
-        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-          <div className="space-y-0.5">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
-              <RotateCcw className="size-3.5" />
-              <span>{isZh ? "智慧再次購買" : "Quick Reorder"}</span>
-            </div>
-            <h2 className="font-heading text-lg font-extrabold text-foreground sm:text-xl">
-              {isZh
-                ? "再次購買 (上次訂單商品)"
-                : "Buy Again — Last Order Essentials"}
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              {isZh
-                ? `已送達 • 訂單編號 ${pastOrder.orderNumber}`
-                : `Delivered • Order ${pastOrder.orderNumber}`}
-            </p>
-          </div>
-
-          <Button
-            onClick={handleReorderAll}
-            className="shrink-0 gap-2 self-start rounded-xl font-bold shadow-xs sm:self-auto"
-          >
-            {reordered ? (
-              <>
-                <Check className="size-4 text-accent" />
-                <span>{isZh ? "已加入購物車" : "Added to Cart!"}</span>
-              </>
-            ) : (
-              <>
-                <ShoppingBag className="size-4" />
-                <span>{isZh ? "一鍵全部加入購物車" : "Add All To Cart"}</span>
-              </>
-            )}
-          </Button>
-        </div>
-
-        {/* Dense past items row */}
-        <div className="grid grid-cols-2 gap-3 pt-1 sm:grid-cols-4">
-          {pastOrder.items.map((item) => (
-            <div
-              key={item.variantId}
-              className="flex items-center gap-3 rounded-xl border border-border/80 bg-background/80 p-2.5 transition-colors hover:border-primary/40"
-            >
-              <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-bold text-primary">
-                {item.brand ? item.brand.charAt(0) : "P"}
-              </div>
-              <div className="min-w-0 flex-1">
-                <span className="block truncate text-[10px] font-bold text-muted-foreground uppercase">
-                  {item.brand}
-                </span>
-                <p className="line-clamp-1 text-xs font-semibold text-foreground">
-                  {item.title}
-                </p>
-                <div className="flex items-center gap-1 font-mono text-xs font-bold text-primary">
-                  <span>HK${item.price.toFixed(2)}</span>
-                  <span className="text-[10px] font-normal text-muted-foreground">
-                    ({item.packSize})
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <BrowseCarousel
+      eyebrow={isZh ? "再次選購" : "PREVIOUSLY PURCHASED"}
+      title={
+        isZh ? (
+          <>
+            再次 <span className="text-primary italic font-serif">購買</span>。
+          </>
+        ) : (
+          <>
+            Buy <span className="text-primary italic font-serif">again</span>.
+          </>
+        )
+      }
+      viewAllHref="/orders"
+      viewAllLabel={isZh ? "查看全部訂單" : "View Previous Orders"}
+      items={items}
+      imageFit="contain"
+    />
   )
 }

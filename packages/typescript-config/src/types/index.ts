@@ -36,36 +36,51 @@ export type LanguageLocale = 'en' | 'zh-HK';
 // 3. Catalogue & Product Types
 // ==========================================
 
-export interface Subcategory {
-  id: string;
-  categoryId: string;
-  slug: string;
-  nameEn: string;
-  nameZh: string;
-  imageUrl?: string;
-}
-
 export interface Category {
   id: string;
-  slug: string;
+  parentId: string | null;
   nameEn: string;
   nameZh: string;
-  imageUrl: string;
+  slug: string;
+  imageUrl?: string;
+  bannerUrl?: string;
+  descriptionEn?: string;
+  descriptionZh?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  sortOrder: number;
+  isActive: boolean;
+  level: 1 | 2; // max level 2
+  // UI helpers & backwards compatibility:
   icon?: string;
-  parentId?: string | null;
-  subcategories?: Subcategory[];
   featuredBrands?: string[];
+  subcategories?: Category[];
+  children?: CategoryTreeNode[];
   displayOrder?: number;
+  categoryId?: string;
 }
+
+export interface CategoryTreeNode extends Category {
+  children: CategoryTreeNode[];
+}
+
+export type ParentCategory = CategoryTreeNode;
+export type Subcategory = Category;
 
 export interface Brand {
   id: string;
   slug: string;
   name: string;
+  nameEn?: string;
+  nameZh?: string;
   logoUrl: string;
   countryOfOrigin: string;
+  descriptionEn?: string;
+  descriptionZh?: string;
   productCount?: number;
   featured?: boolean;
+  isActive?: boolean;
+  sortOrder?: number;
 }
 
 export interface Country {
@@ -100,7 +115,30 @@ export type ProductBadge =
   | 'new'
   | 'offer'
   | 'low-stock'
-  | 'out-of-stock';
+  | 'out-of-stock'
+  | 'organic'
+  | 'frozen'
+  | 'bestseller';
+
+export interface ProductNutrition {
+  servingSize?: string;
+  energy?: string;
+  protein?: string;
+  fat?: string;
+  carbohydrates?: string;
+  fiber?: string;
+  sodium?: string;
+}
+
+export interface ProductReviewItem {
+  id: string;
+  author: string;
+  rating: number;
+  date: string;
+  title: string;
+  comment: string;
+  verifiedPurchase: boolean;
+}
 
 export interface Product {
   id: string;
@@ -113,16 +151,26 @@ export interface Product {
   subcategoryId?: string;
   brandId: string;
   brandName: string;
+  brandSlug?: string;
   images: string[];
   badges: ProductBadge[];
   variants: ProductVariant[];
   originCountry: string; // "India", "Pakistan", "Bangladesh", "Nepal", "Sri Lanka", "UAE"
   storageInstructions?: string;
-  expiryDate?: string;
   rating?: number;
   reviewCount?: number;
   isBestSeller?: boolean;
   isNewArrival?: boolean;
+  popularityScore?: number;
+  isVeg?: boolean;
+  isHalal?: boolean;
+  tags?: string[];
+  ingredients?: string;
+  allergens?: string;
+  usageInstructions?: string;
+  nutrition?: ProductNutrition;
+  reviews?: ProductReviewItem[];
+  relatedProductIds?: string[];
 }
 
 // ==========================================
@@ -160,6 +208,9 @@ export interface Collection {
   ctaLabelEn?: string;
   ctaLabelZh?: string;
   productIds: string[];
+  startsAt?: string;
+  endsAt?: string;
+  isActive?: boolean;
 }
 
 // ==========================================
@@ -279,3 +330,44 @@ export interface ApiError {
   fields?: Record<string, string>;
   requestId?: string;
 }
+
+// ==========================================
+// 9. SEO & Editorial Content Types
+// ==========================================
+
+export interface CategoryFaqItem {
+  id: string;
+  questionEn: string;
+  questionZh: string;
+  answerEn: string;
+  answerZh: string;
+}
+
+export interface BuyingGuideSection {
+  id: string;
+  headingEn: string;
+  headingZh: string;
+  contentEn: string;
+  contentZh: string;
+}
+
+export interface RelatedCategoryLink {
+  slug: string;
+  nameEn: string;
+  nameZh: string;
+  descriptionEn?: string;
+  descriptionZh?: string;
+  badge?: string;
+}
+
+export interface CategorySeoData {
+  categorySlug: string;
+  headingEn: string;
+  headingZh: string;
+  introEn: string;
+  introZh: string;
+  buyingGuide?: BuyingGuideSection[];
+  faqs?: CategoryFaqItem[];
+  relatedCategories?: RelatedCategoryLink[];
+}
+

@@ -3,38 +3,39 @@
 import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, LayoutGrid, Search, Heart, User } from "lucide-react"
-import { useAppDispatch } from "@/hooks/store"
-import { toggleFilterSheet, openAuthModal } from "@/features/ui/uiSlice"
+import { Home, LayoutGrid, Search, ShoppingCart, User } from "lucide-react"
+import { useAppDispatch, useAppSelector } from "@/hooks/store"
+import { openAuthModal } from "@/features/ui/uiSlice"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function MobileBottomNav() {
   const pathname = usePathname()
   const dispatch = useAppDispatch()
+  const locale = useAppSelector((state) => state.locale.language)
+  const isZh = locale === "zh-HK"
+  const cartItems = useAppSelector((state) => state.cart.items)
+  const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 
   const navItems = [
-    { label: "Home", href: "/", icon: Home },
+    { label: isZh ? "首頁" : "Home", href: "/", icon: Home },
     {
-      label: "Categories",
+      label: isZh ? "分類" : "Categories",
       href: "/categories",
       icon: LayoutGrid,
-      onClick: (e: React.MouseEvent) => {
-        e.preventDefault()
-        dispatch(toggleFilterSheet())
-      },
     },
     {
-      label: "Search",
+      label: isZh ? "搜尋" : "Search",
       href: "/search",
       icon: Search,
     },
     {
-      label: "Wishlist",
-      href: "/wishlist",
-      icon: Heart,
+      label: isZh ? "購物車" : "Cart",
+      href: "/cart",
+      icon: ShoppingCart,
+      badge: cartItemCount > 0 ? (cartItemCount > 99 ? "99+" : cartItemCount) : null,
     },
     {
-      label: "Account",
+      label: isZh ? "帳戶" : "Account",
       href: "/account",
       icon: User,
       onClick: (e: React.MouseEvent) => {
@@ -63,7 +64,14 @@ export function MobileBottomNav() {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <Icon className={cn("size-5 mb-0.5", isActive && "stroke-[2.5px]")} />
+                <div className="relative">
+                  <Icon className={cn("size-5 mb-0.5", isActive && "stroke-[2.5px]")} />
+                  {item.badge && (
+                    <span className="absolute -top-1.5 -right-2.5 flex size-4 items-center justify-center rounded-full bg-accent text-[9px] font-black text-accent-foreground leading-none">
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
                 <span>{item.label}</span>
               </Link>
             </li>

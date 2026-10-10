@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 
 import { useAppSelector } from "@/hooks/store"
+import { cn } from "@workspace/ui/lib/utils"
 
 type TrustItem = {
   icon: LucideIcon
@@ -55,31 +56,29 @@ export function TrustStrip() {
 
   return (
     <section className="border-y border-border bg-muted/30">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
+      <div className="max-w-8xl mx-auto grid grid-cols-4 px-2 sm:px-6 lg:px-8">
         {trustItems.map((item, index) => {
           const Icon = item.icon
 
           return (
             <div
               key={item.titleEn}
-              className={[
-                "flex items-center gap-3 py-4 sm:py-5",
-                index % 2 === 1 ? "border-l border-border pl-4 sm:pl-6" : "",
-                index >= 2 ? "border-t border-border lg:border-t-0" : "",
-                index > 0 ? "lg:border-l lg:border-border lg:pl-6" : "",
-              ].join(" ")}
+              className={cn(
+                "flex flex-col items-center gap-1 py-2.5 text-center sm:flex-row sm:gap-3 sm:py-4 sm:text-left lg:py-5",
+                index > 0 && "border-l border-border pl-1.5 sm:pl-4 lg:pl-6"
+              )}
             >
               <Icon
-                className="size-5 shrink-0 text-primary"
+                className="size-4 shrink-0 text-primary sm:size-5"
                 strokeWidth={1.8}
               />
 
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">
+                <p className="text-[10px] leading-tight font-semibold text-foreground sm:text-xs sm:leading-snug lg:text-sm">
                   {isZh ? item.titleZh : item.titleEn}
                 </p>
 
-                <p className="mt-0.5 text-xs text-muted-foreground">
+                <p className="mt-0.5 line-clamp-1 text-[9px] leading-tight text-muted-foreground sm:line-clamp-none sm:text-[11px] sm:leading-snug lg:text-xs">
                   {isZh ? item.descriptionZh : item.descriptionEn}
                 </p>
               </div>

@@ -1,63 +1,92 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Award } from "lucide-react"
-import { brands } from "@workspace/mock-data"
+import Image from "next/image"
+import { Award } from "lucide-react"
+import { getFeaturedBrands } from "@workspace/mock-data"
 import { useAppSelector } from "@/hooks/store"
+import { SectionHeader } from "@/components/common/section-header"
+
+function BrandLogo({
+  name,
+  logoUrl,
+}: {
+  name: string
+  logoUrl?: string
+}) {
+  const [hasError, setHasError] = useState(false)
+
+  if (!logoUrl || hasError) {
+    return (
+      <div className="flex size-20 sm:size-24 md:size-28 items-center justify-center rounded-full border border-border/80 bg-gradient-to-tr from-muted to-secondary/50 font-heading text-2xl sm:text-3xl font-black text-primary shadow-xs transition-transform duration-300 group-hover:scale-105">
+        {name.charAt(0)}
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative flex size-20 sm:size-24 md:size-28 items-center justify-center overflow-hidden rounded-full border border-border/70 bg-white dark:bg-card p-2 shadow-xs transition-transform duration-300 group-hover:scale-105">
+      <Image
+        src={logoUrl}
+        alt={name}
+        fill
+        sizes="(max-width: 640px) 80px, 112px"
+        className="object-contain p-2 sm:p-3"
+        onError={() => setHasError(true)}
+        unoptimized
+      />
+    </div>
+  )
+}
 
 export function BrandCarousel() {
   const locale = useAppSelector((state) => state.locale.language)
   const isZh = locale === "zh-HK"
 
   return (
-    <section className="max-w-8xl mx-auto space-y-5 px-4 py-8 sm:px-6 lg:px-8">
-      <div className="flex items-end justify-between">
-        <div>
-          <div className="mb-1 flex items-center gap-1.5 text-xs font-bold tracking-wider text-primary uppercase">
+    <section className="max-w-8xl mx-auto space-y-4 sm:space-y-6 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      {/* Brand Header */}
+      <SectionHeader
+        eyebrow={
+          <span className="flex items-center gap-1.5 text-primary font-bold">
             <Award className="size-3.5" />
-            <span>{isZh ? "信譽品牌" : "Trusted Heritage Brands"}</span>
-          </div>
-          <h2 className="font-heading text-xl font-extrabold text-foreground sm:text-2xl">
-            {isZh ? "按知名品牌選購" : "Shop By Brand"}
-          </h2>
-          <p className="text-xs text-muted-foreground sm:text-sm">
-            {isZh
-              ? "匯聚數十個世代相傳的印巴南亞經典國民品牌"
-              : "Directly imported certified household staples from origin master producers"}
-          </p>
-        </div>
+            <span>{isZh ? "信譽品牌" : "TRUSTED HERITAGE BRANDS"}</span>
+          </span>
+        }
+        title={
+          isZh ? (
+            <>
+              按 <span className="text-primary italic font-serif">知名品牌</span> 選購。
+            </>
+          ) : (
+            <>
+              Shop by <span className="text-primary italic font-serif">brand</span>.
+            </>
+          )
+        }
+        subtitle={
+          isZh
+            ? "匯聚數十個世代相傳的印巴南亞經典國民品牌"
+            : "Directly imported certified household staples from origin master producers"
+        }
+        viewAllHref="/brands"
+        viewAllLabel={isZh ? "全部品牌" : "All Brands"}
+      />
 
-        <Link
-          href="/brands"
-          className="flex items-center gap-1 text-xs font-bold text-primary hover:underline"
-        >
-          {isZh ? "全部品牌" : "All Brands"} <ArrowRight className="size-3" />
-        </Link>
-      </div>
-
-      {/* Brand Cards Grid */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-5">
-        {brands.slice(0, 10).map((brand) => (
+      {/* Brand Cards Grid: 3 in a row on mobile */}
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
+        {getFeaturedBrands(12).map((brand) => (
           <Link
             key={brand.id}
             href={`/brands/${brand.slug}`}
-            className="group flex flex-col items-center justify-between rounded-xl border border-border bg-card p-4 text-center transition-all hover:border-primary/50 hover:shadow-xs"
+            className="group flex flex-col items-center justify-center p-2 sm:p-3 text-center transition-transform duration-200 hover:-translate-y-1"
           >
-            {/* Logo placeholder with brand initials */}
-            <div className="mb-2 flex size-14 items-center justify-center rounded-full border border-border/80 bg-gradient-to-tr from-muted to-secondary/50 font-heading text-base font-black text-primary shadow-2xs transition-transform group-hover:scale-110">
-              {brand.name.charAt(0)}
-            </div>
+            <BrandLogo name={brand.name} logoUrl={brand.logoUrl} />
 
-            <div className="space-y-0.5">
-              <h3 className="truncate font-heading text-sm font-bold text-foreground transition-colors group-hover:text-primary">
-                {brand.name}
-              </h3>
-              <p className="text-[10px] font-medium text-muted-foreground">
-                {brand.countryOfOrigin} • {brand.productCount}+{" "}
-                {isZh ? "款" : "SKUs"}
-              </p>
-            </div>
+            <h3 className="mt-2 w-full truncate font-heading text-xs sm:text-sm font-bold text-foreground transition-colors group-hover:text-primary">
+              {brand.name}
+            </h3>
           </Link>
         ))}
       </div>

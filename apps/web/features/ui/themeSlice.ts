@@ -8,7 +8,7 @@ export interface ThemeState {
 }
 
 const initialState: ThemeState = {
-  mode: 'system',
+  mode: 'light',
 };
 
 export const themeSlice = createSlice({

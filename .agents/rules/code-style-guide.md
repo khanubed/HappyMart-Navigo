@@ -33,3 +33,4 @@ trigger: always_on
 •	Schema changes only via migrations; review SQL for locks on big tables.
 •	Add indexes with the feature that needs them.
 •	Seed script creates roles, permissions, HK districts, delivery slot templates and about 200 demo products.
+•	Backwards compatible changes: add column, deploy code, backfill, then drop old column in a later release.

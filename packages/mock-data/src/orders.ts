@@ -1,4 +1,10 @@
 import type { Order } from "@workspace/typescript-config/types"
+import { products } from "./products"
+
+const getProductImage = (productId: string, fallback: string) => {
+  const product = products.find((p) => p.id === productId)
+  return product?.images[0] || fallback
+}
 
 export const sampleOrderHistory: Order[] = [
   {
@@ -15,7 +21,7 @@ export const sampleOrderHistory: Order[] = [
         price: 128,
         mrp: 155,
         quantity: 1,
-        image: "/images/products/india-gate-5kg.jpg",
+        image: getProductImage("prod-ig-basmati-5kg", ""),
         originCountry: "India",
       },
       {
@@ -27,7 +33,7 @@ export const sampleOrderHistory: Order[] = [
         price: 98,
         mrp: 118,
         quantity: 1,
-        image: "/images/products/aashirvaad-10kg.jpg",
+        image: getProductImage("prod-aashirvaad-atta-10kg", ""),
         originCountry: "India",
       },
       {
@@ -39,7 +45,7 @@ export const sampleOrderHistory: Order[] = [
         price: 14.5,
         mrp: 18,
         quantity: 2,
-        image: "/images/products/shan-biryani.jpg",
+        image: getProductImage("prod-shan-bombay-biryani", ""),
         originCountry: "Pakistan",
       },
       {
@@ -51,7 +57,7 @@ export const sampleOrderHistory: Order[] = [
         price: 112,
         mrp: 130,
         quantity: 1,
-        image: "/images/products/amul-ghee.jpg",
+        image: getProductImage("prod-amul-ghee-1l", ""),
         originCountry: "India",
       },
     ],

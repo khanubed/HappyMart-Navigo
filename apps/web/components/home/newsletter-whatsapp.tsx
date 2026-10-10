@@ -1,7 +1,9 @@
 "use client"
 
 import React, { useState } from "react"
-import { MessageSquare, Mail, Check, BellRing } from "lucide-react"
+import Link from "next/link"
+import { ArrowUpRight, Check, MessageCircle } from "lucide-react"
+
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { useAppSelector } from "@/hooks/store"
@@ -9,144 +11,108 @@ import { useAppSelector } from "@/hooks/store"
 export function NewsletterWhatsapp() {
   const locale = useAppSelector((state) => state.locale.language)
   const isZh = locale === "zh-HK"
+
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (email.trim()) {
-      setSubscribed(true)
-      setEmail("")
-      setTimeout(() => setSubscribed(false), 5000)
-    }
+
+    if (!email.trim()) return
+
+    // Connect this handler to the newsletter API before production.
+    setSubscribed(true)
+    setEmail("")
   }
 
   return (
-    <section className="max-w-8xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2">
-        {/* WhatsApp Direct Help Card */}
-        <div className="flex flex-col justify-between rounded-2xl border border-success/30 bg-gradient-to-br from-success/10 via-background to-secondary/30 p-6 shadow-2xs sm:p-8">
-          <div className="space-y-3">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-success/20 text-success">
-              <MessageSquare className="size-6" />
-            </div>
-
-            <h3 className="font-heading text-xl font-black text-foreground sm:text-2xl">
-              {isZh
-                ? "需要幫忙？直接 WhatsApp 聯繫我們"
-                : "Need Quick Help? WhatsApp Our HK Support Team"}
-            </h3>
-
-            <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-              {isZh
-                ? "尋找特定進口香料、確認今日配送時段或大宗團購需求，我們親切的客服人員隨時為您服務。"
-                : "Looking for a hard-to-find spice, tracking your delivery slot, or inquiring about bulk orders? Chat with our Hong Kong team."}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-medium text-muted-foreground">
-              <span>
-                ✓{" "}
-                {isZh
-                  ? "中英印巴多語言支援"
-                  : "English, Cantonese & Hindi Support"}
-              </span>
-              <span>
-                ✓ {isZh ? "9am - 10pm 即時回覆" : "Daily 9am - 10pm Active"}
-              </span>
-            </div>
+    <section
+      aria-label={isZh ? "聯絡與訂閱" : "Contact and newsletter"}
+      className="mx-auto max-w-8xl px-4 pt-10 pb-4"
+    >
+      {/* Customer support */}
+      <div className="flex flex-col gap-4 border-y border-border py-5 sm:flex-row sm:items-center sm:justify-between sm:py-6">
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10 text-[#168C48]">
+            <MessageCircle className="size-5" />
           </div>
 
-          <div className="pt-6">
-            <a
-              href="https://wa.me/85251234567?text=Hi%20Happymart%20Team%2C%20I%20have%20an%20inquiry%20regarding%20my%20order."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block"
-            >
-              <Button className="h-11 gap-2 rounded-xl bg-[#25D366] px-6 font-bold text-white shadow-xs hover:bg-[#20BD5A]">
-                <MessageSquare className="size-4 fill-current" />
-                {isZh ? "立即 WhatsApp 對話" : "Start WhatsApp Chat"}
-              </Button>
-            </a>
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-foreground sm:text-base">
+              {isZh ? "需要購物協助？" : "Need a hand with your shop?"}
+            </h2>
+            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              {isZh
+                ? "查詢商品、配送或訂單，直接聯絡我們。"
+                : "Ask us about products, deliveries or your order."}
+            </p>
           </div>
         </div>
 
-        {/* Newsletter Signup Card */}
-        <div className="flex flex-col justify-between rounded-2xl border border-border bg-gradient-to-br from-primary/10 via-background to-secondary/30 p-6 shadow-2xs sm:p-8">
-          <div className="space-y-3">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/20 text-primary">
-              <BellRing className="size-6" />
+        <Link
+          href="https://wa.me/85251234567"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-10 w-fit shrink-0 items-center gap-2 rounded-md border border-border px-4 text-sm font-medium text-foreground transition-colors hover:border-foreground/30 hover:bg-muted"
+        >
+          {isZh ? "WhatsApp 聯絡我們" : "Chat on WhatsApp"}
+          <ArrowUpRight className="size-4" />
+        </Link>
+      </div>
+
+      {/* Newsletter */}
+      <div className="grid gap-5 py-7 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-10 sm:py-9">
+        <div>
+          <h2 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+            {isZh ? "好食材，新優惠。" : "Good food. Good finds."}
+          </h2>
+          <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground">
+            {isZh
+              ? "訂閱電郵，接收新品到貨及精選優惠。"
+              : "Get new arrivals and hand-picked grocery deals in your inbox."}
+          </p>
+        </div>
+
+        <div className="w-full sm:max-w-md">
+          {subscribed ? (
+            <div
+              role="status"
+              className="flex min-h-11 items-center gap-2 text-sm font-medium text-foreground"
+            >
+              <Check className="size-4 text-primary" />
+              {isZh ? "感謝訂閱！" : "Thanks for subscribing!"}
             </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex w-full gap-2">
+              <label htmlFor="happymart-newsletter-email" className="sr-only">
+                {isZh ? "電郵地址" : "Email address"}
+              </label>
 
-            <h3 className="font-heading text-xl font-black text-foreground sm:text-2xl">
-              {isZh
-                ? "訂閱 Happymart 節慶特惠與新品通知"
-                : "Join the Happymart HK Club for Weekly Deals"}
-            </h3>
+              <Input
+                id="happymart-newsletter-email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={isZh ? "輸入電郵地址" : "Your email address"}
+                className="h-11 min-w-0 rounded-md bg-background"
+              />
 
-            <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-              {isZh
-                ? "首單享受獨家立減優惠，第一時間掌握排燈節、齋月限定食材與最新到港好物。"
-                : "Get notified about festival pantry restocks, weekly promo codes, and freshly arrived shipments directly to your inbox."}
-            </p>
-
-            <ul className="grid grid-cols-2 gap-2 pt-1 text-xs font-medium text-muted-foreground">
-              <li className="flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-primary" />
-                {isZh ? "獨家折扣碼" : "Exclusive Member Codes"}
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-primary" />
-                {isZh ? "新到港食材速報" : "New Shipment Alerts"}
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-primary" />
-                {isZh ? "節慶精選預約" : "Festival Pre-Orders"}
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-primary" />
-                {isZh ? "隨時可取消訂閱" : "Zero Spam Promise"}
-              </li>
-            </ul>
-          </div>
-
-          <div className="pt-6">
-            {subscribed ? (
-              <div className="flex items-center gap-2 rounded-xl border border-success/30 bg-success/15 p-3 text-xs font-bold text-success">
-                <Check className="size-4" />
-                <span>
-                  {isZh
-                    ? "感謝訂閱！優惠碼已發送至您的信箱。"
-                    : "Thank you for joining! Check your inbox for your welcome discount code."}
-                </span>
-              </div>
-            ) : (
-              <form
-                onSubmit={handleSubscribe}
-                className="flex flex-col gap-2 sm:flex-row"
+              <Button
+                type="submit"
+                className="h-11 shrink-0 rounded-md px-4 font-medium"
               >
-                <div className="relative flex-1">
-                  <Mail className="absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={
-                      isZh ? "輸入您的電郵地址" : "Enter your email address"
-                    }
-                    className="h-11 rounded-xl bg-background pl-10"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="h-11 shrink-0 rounded-xl px-6 font-bold shadow-xs"
-                >
-                  {isZh ? "立即訂閱" : "Subscribe"}
-                </Button>
-              </form>
-            )}
-          </div>
+                {isZh ? "訂閱" : "Sign up"}
+              </Button>
+            </form>
+          )}
+
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            {isZh
+              ? "只發送新品及優惠資訊。"
+              : "Occasional updates only. Unsubscribe anytime."}
+          </p>
         </div>
       </div>
     </section>
