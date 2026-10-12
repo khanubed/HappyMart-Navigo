@@ -2,7 +2,6 @@
 
 import React, { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { Plus, Check, ShoppingCart, Sparkles } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 import type { Product } from "@workspace/typescript-config/types"
@@ -95,7 +94,7 @@ export function BundleCard({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         {/* Left Column: Product Visuals with Plus Badges */}
-        <div className="lg:col-span-8 flex flex-wrap items-center gap-3 sm:gap-4">
+        <div className="lg:col-span-8 flex flex-col sm:flex-row sm:flex-wrap items-center gap-2.5 sm:gap-4 w-full">
           {allItems.map((prod, idx) => {
             const isSelected = selectedIds.includes(prod.id)
             const isCurrent = prod.id === currentProduct.id
@@ -104,9 +103,18 @@ export function BundleCard({
             return (
               <React.Fragment key={prod.id}>
                 <div
+                  role="checkbox"
+                  aria-checked={isSelected}
+                  tabIndex={0}
                   onClick={() => toggleItem(prod.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      toggleItem(prod.id)
+                    }
+                  }}
                   className={cn(
-                    "group relative flex w-36 sm:w-44 flex-col items-center rounded-2xl border p-2.5 sm:p-3 text-center transition-all cursor-pointer select-none",
+                    "group relative flex w-full sm:w-36 lg:w-44 flex-row sm:flex-col items-center rounded-2xl border p-3 sm:p-3 transition-all cursor-pointer select-none gap-3 sm:gap-0",
                     isSelected
                       ? "border-primary bg-primary/5 shadow-2xs"
                       : "border-border/60 bg-muted/20 opacity-60 hover:opacity-100"
@@ -115,7 +123,7 @@ export function BundleCard({
                   {/* Checkbox indicator */}
                   <div
                     className={cn(
-                      "absolute top-2 left-2 flex size-5 items-center justify-center rounded-md border text-white transition-colors",
+                      "flex size-5 shrink-0 items-center justify-center rounded-md border text-white transition-colors sm:absolute sm:top-2 sm:left-2",
                       isSelected
                         ? "border-primary bg-primary"
                         : "border-border bg-background"
@@ -124,36 +132,38 @@ export function BundleCard({
                     {isSelected && <Check className="size-3.5 stroke-[3]" />}
                   </div>
 
-                  {isCurrent && (
-                    <span className="absolute top-2 right-2 rounded-full bg-accent/20 px-1.5 py-0.5 text-[9px] font-extrabold text-accent">
-                      {isZh ? "本商品" : "This Item"}
-                    </span>
-                  )}
-
                   {/* Thumbnail */}
-                  <div className="relative size-20 sm:size-24 my-2 overflow-hidden rounded-xl border border-border/50 bg-white p-1">
+                  <div className="relative size-16 sm:size-20 lg:size-24 shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/30 my-0 sm:my-2">
                     <Image
                       src={prod.images?.[0] || "/images/categories/snacks.png"}
                       alt={prod.titleEn}
                       fill
-                      sizes="96px"
-                      className="object-contain p-1 transition-transform group-hover:scale-105"
+                      sizes="(max-width: 640px) 64px, 96px"
+                      className="object-cover transition-transform group-hover:scale-105"
                       unoptimized
                     />
                   </div>
 
-                  {/* Title & Price */}
-                  <span className="line-clamp-2 text-[11px] font-semibold text-foreground leading-tight">
-                    {isZh && prod.titleZh ? prod.titleZh : prod.titleEn}
-                  </span>
-                  <span className="mt-1 font-heading text-xs font-bold text-primary">
-                    HK${price}
-                  </span>
+                  {/* Text & Price (Right of image on mobile, below image on desktop) */}
+                  <div className="flex flex-1 flex-col justify-center min-w-0 text-left sm:text-center sm:w-full">
+                    {isCurrent && (
+                      <span className="w-fit mb-1 rounded-full bg-accent/20 px-1.5 py-0.5 text-[9px] font-extrabold text-accent shrink-0 sm:absolute sm:top-2 sm:right-2 sm:mb-0">
+                        {isZh ? "本商品" : "This Item"}
+                      </span>
+                    )}
+
+                    <span className="line-clamp-2 text-xs sm:text-[11px] font-semibold text-foreground leading-tight">
+                      {isZh && prod.titleZh ? prod.titleZh : prod.titleEn}
+                    </span>
+                    <span className="mt-1 font-heading text-sm sm:text-xs font-bold text-primary">
+                      HK${price}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Plus connector icon */}
+                {/* Plus connector icon (Between products vertically on mobile, horizontally on desktop) */}
                 {idx < allItems.length - 1 && (
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground">
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground my-0.5 sm:my-0 shadow-2xs">
                     <Plus className="size-4" />
                   </div>
                 )}

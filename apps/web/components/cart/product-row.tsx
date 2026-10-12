@@ -27,11 +27,11 @@ export function ProductRow({
   return (
     <section
       aria-label={isZh ? "常購加購推薦" : "Recommended add-ons"}
-      className={cn("space-y-3 pt-6 border-t border-border/80", className)}
+      className={cn("space-y-3 border-t border-border/80 pt-6", className)}
     >
       <div className="flex items-center gap-2">
         <Sparkles className="size-4 text-accent" />
-        <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">
+        <h2 className="font-heading text-base font-bold text-foreground sm:text-lg">
           {isZh ? "推薦加購商品" : "Frequently Added With Your Cart"}
         </h2>
       </div>
@@ -43,7 +43,7 @@ export function ProductRow({
       </p>
 
       {/* Compact Supermarket Product Row Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+      <div className="grid grid-cols-2 gap-3 pt-1 sm:grid-cols-4">
         {products.map((product) => (
           <CompactSuggestionCard
             key={product.id}
@@ -96,12 +96,12 @@ function CompactSuggestionCard({
   }
 
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-border/80 bg-card p-2.5 sm:p-3 hover:border-primary/40 transition-colors shadow-2xs">
+    <div className="flex flex-col justify-between rounded-xl border border-border/80 bg-card p-2.5 shadow-2xs transition-colors hover:border-primary/40 sm:p-3">
       <div className="space-y-2">
         {/* Thumbnail */}
         <Link
           href={`/products/${product.slug || product.id}`}
-          className="relative block aspect-square w-full overflow-hidden rounded-lg border border-border/60 bg-white p-1 hover:opacity-90 transition-opacity"
+          className="relative block aspect-square w-full overflow-hidden rounded-lg border border-border/60 bg-white p-1 transition-opacity hover:opacity-90"
         >
           {image && !imgError ? (
             <Image
@@ -109,35 +109,39 @@ function CompactSuggestionCard({
               alt={title}
               fill
               sizes="(max-width: 640px) 50vw, 25vw"
-              className="object-contain p-1"
+              className="object-coverp-1"
               onError={() => setImgError(true)}
               unoptimized
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-muted text-xs font-bold text-muted-foreground">
-              {product.brandName ? product.brandName.slice(0, 2).toUpperCase() : "HM"}
+              {product.brandName
+                ? product.brandName.slice(0, 2).toUpperCase()
+                : "HM"}
             </div>
           )}
         </Link>
 
         {/* Details */}
         <div className="space-y-0.5">
-          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block truncate">
+          <span className="block truncate text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
             {product.brandName}
           </span>
           <Link
             href={`/products/${product.slug || product.id}`}
-            className="font-heading text-xs font-bold text-foreground line-clamp-2 hover:text-primary transition-colors leading-snug"
+            className="line-clamp-2 font-heading text-xs leading-snug font-bold text-foreground transition-colors hover:text-primary"
           >
             {title}
           </Link>
-          <p className="text-[10px] text-muted-foreground">{variant.packSize}</p>
+          <p className="text-[10px] text-muted-foreground">
+            {variant.packSize}
+          </p>
         </div>
       </div>
 
       {/* Price & Add Action */}
-      <div className="pt-2 flex items-center justify-between gap-1.5 border-t border-border/50 mt-2">
-        <span className="font-mono text-xs sm:text-sm font-black text-primary">
+      <div className="mt-2 flex items-center justify-between gap-1.5 border-t border-border/50 pt-2">
+        <span className="font-mono text-xs font-black text-primary sm:text-sm">
           HK${price.toFixed(2)}
         </span>
 
@@ -146,8 +150,8 @@ function CompactSuggestionCard({
           variant={justAdded ? "outline" : "default"}
           onClick={handleAdd}
           className={cn(
-            "h-7 px-2.5 text-xs font-bold gap-1",
-            justAdded && "border-success text-success bg-success/10"
+            "h-7 gap-1 px-2.5 text-xs font-bold",
+            justAdded && "border-success bg-success/10 text-success"
           )}
         >
           {justAdded ? (

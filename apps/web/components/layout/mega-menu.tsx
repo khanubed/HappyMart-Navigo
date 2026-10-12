@@ -4,7 +4,11 @@ import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown, ArrowRight, Sparkles, LayoutGrid } from "lucide-react"
-import { parentCategories, categories, getBrandLogo } from "@workspace/mock-data"
+import {
+  parentCategories,
+  categories,
+  getBrandLogo,
+} from "@workspace/mock-data"
 import { useAppSelector } from "@/hooks/store"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -27,7 +31,7 @@ function BrandIcon({ name }: { name: string }) {
         alt={name}
         fill
         sizes="28px"
-        className="object-contain p-0.5"
+        className="object-coverp-0.5"
         onError={() => setHasError(true)}
         unoptimized
       />
@@ -48,13 +52,13 @@ export function MegaMenu() {
       className="relative z-30 hidden border-b border-border bg-background lg:block"
       onMouseLeave={() => setHoveredParent(null)}
     >
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
         <ul className="no-scrollbar flex items-center justify-between gap-1 overflow-x-auto py-1 text-xs font-semibold">
           <li className="shrink-0">
             <Link
               href="/products"
               onMouseEnter={() => setHoveredParent(null)}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 whitespace-nowrap font-bold text-primary hover:bg-primary/10 transition-colors"
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 font-bold whitespace-nowrap text-primary transition-colors hover:bg-primary/10"
             >
               <Sparkles className="size-3.5 text-accent" />
               <span>{isZh ? "全部商品" : "All Products"}</span>
@@ -64,7 +68,7 @@ export function MegaMenu() {
             <Link
               href="/categories"
               onMouseEnter={() => setHoveredParent(null)}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 whitespace-nowrap font-bold text-foreground/90 hover:bg-muted transition-colors"
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 font-bold whitespace-nowrap text-foreground/90 transition-colors hover:bg-muted"
             >
               <LayoutGrid className="size-3.5 text-primary" />
               <span>{isZh ? "全館分類" : "Categories"}</span>
@@ -78,9 +82,9 @@ export function MegaMenu() {
                   href={`/categories/${parent.slug}`}
                   onMouseEnter={() => setHoveredParent(parent.id)}
                   className={cn(
-                    "inline-flex cursor-pointer items-center gap-1 px-2.5 py-2 whitespace-nowrap text-foreground/80 transition-colors hover:text-primary hover:underline hover:underline-offset-4 hover:decoration-2 hover:decoration-primary",
+                    "inline-flex cursor-pointer items-center gap-1 px-2.5 py-2 whitespace-nowrap text-foreground/80 transition-colors hover:text-primary hover:underline hover:decoration-primary hover:decoration-2 hover:underline-offset-4",
                     isActive &&
-                      "font-bold text-primary underline underline-offset-4 decoration-2 decoration-primary"
+                      "font-bold text-primary underline decoration-primary decoration-2 underline-offset-4"
                   )}
                 >
                   <span>{isZh ? parent.nameZh : parent.nameEn}</span>
@@ -104,7 +108,7 @@ export function MegaMenu() {
           onMouseEnter={() => setHoveredParent(activeParent.id)}
           onMouseLeave={() => setHoveredParent(null)}
         >
-          <div className="max-w-8xl mx-auto grid grid-cols-12 gap-8 px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-8xl grid-cols-12 gap-8 px-4 py-8 sm:px-6 lg:px-8">
             {/* Column 1 & 2: Subcategories in this category */}
             <div className="col-span-8 space-y-3.5 border-r border-border pr-6">
               <div className="flex items-center justify-between">
@@ -130,11 +134,15 @@ export function MegaMenu() {
                   >
                     <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border/60 bg-muted/40 p-0.5 transition-transform group-hover:scale-105">
                       <Image
-                        src={sub.imageUrl || activeParent.imageUrl || "/images/categories/snacks.png"}
+                        src={
+                          sub.imageUrl ||
+                          activeParent.imageUrl ||
+                          "/images/categories/snacks.png"
+                        }
                         alt={isZh ? sub.nameZh : sub.nameEn}
                         fill
                         sizes="36px"
-                        className="object-contain p-0.5"
+                        className="object-coverp-0.5"
                         unoptimized
                       />
                     </div>
@@ -162,16 +170,18 @@ export function MegaMenu() {
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-2.5">
-                {(activeParent.featuredBrands || []).slice(0, 8).map((brandName) => (
-                  <Link
-                    key={brandName}
-                    href={`/brands/${brandName.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
-                    className="group flex items-center gap-2 rounded-lg border border-border/60 bg-card p-2 text-xs font-semibold text-foreground transition-all hover:border-primary hover:text-primary hover:shadow-2xs"
-                  >
-                    <BrandIcon name={brandName} />
-                    <span className="truncate">{brandName}</span>
-                  </Link>
-                ))}
+                {(activeParent.featuredBrands || [])
+                  .slice(0, 8)
+                  .map((brandName) => (
+                    <Link
+                      key={brandName}
+                      href={`/brands/${brandName.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
+                      className="group flex items-center gap-2 rounded-lg border border-border/60 bg-card p-2 text-xs font-semibold text-foreground transition-all hover:border-primary hover:text-primary hover:shadow-2xs"
+                    >
+                      <BrandIcon name={brandName} />
+                      <span className="truncate">{brandName}</span>
+                    </Link>
+                  ))}
               </div>
             </div>
 
