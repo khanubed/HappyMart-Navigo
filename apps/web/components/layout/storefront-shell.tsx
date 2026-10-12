@@ -11,6 +11,7 @@ import { CartToast } from "../cart/cart-toast"
 import { AnnouncementBar } from "../common/announcement-bar"
 import { CheckoutHeader } from "../checkout/checkout-header"
 import { CheckoutFooter } from "../checkout/checkout-footer"
+import { DemoThemeSwitcher } from "../common/demo-theme-switcher"
 import { useAppSelector } from "@/hooks/store"
 
 const StorefrontShellContext = createContext(false)
@@ -40,6 +41,7 @@ export function StorefrontShell({ children }: StorefrontShellProps) {
           <main className="w-full flex-1">{children}</main>
           <CheckoutFooter />
           <CartToast />
+          <DemoThemeSwitcher />
         </div>
       </StorefrontShellContext.Provider>
     )
@@ -76,6 +78,7 @@ export function StorefrontShell({ children }: StorefrontShellProps) {
         <MobileBottomNav />
         <MobileDrawer />
         <CartToast />
+        <DemoThemeSwitcher />
       </div>
     </StorefrontShellContext.Provider>
   )

@@ -7,10 +7,12 @@ import { Phone, Mail, MapPin, Globe, CreditCard } from "lucide-react"
 import { parentCategories, categories, countries } from "@workspace/mock-data"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { setLanguage } from "@/features/ui/localeSlice"
+import { getThemeLogo } from "@/config/themes"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function Footer() {
   const dispatch = useAppDispatch()
+  const themeId = useAppSelector((state) => state.theme.themeId)
   const locale = useAppSelector((state) => state.locale.language)
   const isZh = locale === "zh-HK"
 
@@ -24,7 +26,7 @@ export function Footer() {
             <Link href="/" className="inline-flex items-center gap-2.5">
               <div className="relative size-10 shrink-0 overflow-hidden rounded-xl border border-border/50 shadow-xs">
                 <Image
-                  src="/images/brand/Happymartlogo.png"
+                  src={getThemeLogo(themeId)}
                   alt="Happymart Supermarket Logo"
                   width={40}
                   height={40}

@@ -16,7 +16,7 @@ export function TrustPoints({ className }: TrustPointsProps) {
   const points = [
     {
       icon: ShieldCheck,
-      color: "text-emerald-500",
+      color: "text-primary",
       titleEn: "100% Authentic Import",
       titleZh: "100% 正品直採進口",
       descEn: "Directly sourced from certified master producers in South Asia.",
@@ -32,7 +32,7 @@ export function TrustPoints({ className }: TrustPointsProps) {
     },
     {
       icon: Lock,
-      color: "text-amber-500",
+      color: "text-primary",
       titleEn: "100% Secure Payment",
       titleZh: "安全加密付款",
       descEn: "Bank-grade 256-bit encryption with FPS, PayMe, Visa & WeChat Pay.",
@@ -40,7 +40,7 @@ export function TrustPoints({ className }: TrustPointsProps) {
     },
     {
       icon: RotateCcw,
-      color: "text-blue-500",
+      color: "text-primary",
       titleEn: "Hassle-Free 7-Day Returns",
       titleZh: "7 天無憂品質售後",
       descEn: "Immediate replacement or refund for any broken packaging or defect.",
@@ -62,7 +62,7 @@ export function TrustPoints({ className }: TrustPointsProps) {
             key={idx}
             className="flex flex-col sm:flex-row items-start gap-2.5 sm:gap-3 p-2 rounded-xl transition-colors"
           >
-            <div className={cn("rounded-xl bg-muted/60 p-2 shrink-0", p.color)}>
+            <div className={cn("rounded-xl bg-primary/10 p-2 shrink-0", p.color)}>
               <Icon className="size-4 sm:size-5" />
             </div>
             <div className="space-y-0.5">

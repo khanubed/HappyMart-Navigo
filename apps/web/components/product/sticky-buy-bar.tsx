@@ -4,7 +4,10 @@ import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import { ShoppingCart } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
-import type { Product, ProductVariant } from "@workspace/typescript-config/types"
+import type {
+  Product,
+  ProductVariant,
+} from "@workspace/typescript-config/types"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { addToCart, setLastAddedItem } from "@/features/cart/cartSlice"
 import { cn } from "@workspace/ui/lib/utils"
@@ -83,11 +86,11 @@ export function StickyBuyBar({
     <div
       aria-hidden={!isVisible}
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 p-3 shadow-2xl backdrop-blur-md transition-transform duration-300 lg:hidden",
-        isVisible ? "translate-y-0" : "translate-y-full pointer-events-none"
+        "fixed right-0 bottom-0 left-0 z-40 border-t border-border bg-background/95 p-3 shadow-2xl backdrop-blur-md transition-transform duration-300 lg:hidden",
+        isVisible ? "translate-y-0" : "pointer-events-none translate-y-full"
       )}
     >
-      <div className="flex items-center gap-3 max-w-md mx-auto">
+      <div className="mx-auto flex max-w-md items-center gap-3">
         {image && (
           <div className="relative size-11 shrink-0 overflow-hidden rounded-xl border border-border/60 bg-white p-0.5">
             <Image
@@ -95,7 +98,7 @@ export function StickyBuyBar({
               alt={product.titleEn}
               fill
               sizes="44px"
-              className="object-contain p-0.5"
+              className="object-coverp-0.5"
               unoptimized
             />
           </div>
@@ -109,7 +112,7 @@ export function StickyBuyBar({
             <span className="font-heading text-sm font-black text-foreground">
               HK${price}
             </span>
-            <span className="text-[10px] text-muted-foreground font-medium">
+            <span className="text-[10px] font-medium text-muted-foreground">
               ({activeVariant.packSize})
             </span>
           </div>
@@ -121,10 +124,18 @@ export function StickyBuyBar({
             size="sm"
             onClick={handleAddToCart}
             disabled={!inStock}
-            className="w-full h-9 rounded-xl text-xs font-bold gap-1.5 shadow-xs cursor-pointer"
+            className="h-9 w-full cursor-pointer gap-1.5 rounded-xl text-xs font-bold shadow-xs"
           >
             <ShoppingCart className="size-3.5" />
-            <span>{inStock ? (isZh ? "加入購物車" : "Add to Cart") : (isZh ? "缺貨" : "Out of Stock")}</span>
+            <span>
+              {inStock
+                ? isZh
+                  ? "加入購物車"
+                  : "Add to Cart"
+                : isZh
+                  ? "缺貨"
+                  : "Out of Stock"}
+            </span>
           </Button>
         </div>
       </div>

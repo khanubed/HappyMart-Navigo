@@ -2,7 +2,14 @@
 
 import React, { useState } from "react"
 import Image from "next/image"
-import { ChevronDown, ChevronUp, ShoppingBag, Truck, Tag, ShieldCheck } from "lucide-react"
+import {
+  ChevronDown,
+  ChevronUp,
+  ShoppingBag,
+  Truck,
+  Tag,
+  ShieldCheck,
+} from "lucide-react"
 import type { CartItem, CouponData } from "@/features/cart/cartSlice"
 import { cn } from "@workspace/ui/lib/utils"
 
@@ -34,46 +41,62 @@ export function CheckoutOrderSummary({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-2xs space-y-4",
+        "space-y-4 rounded-2xl border border-border bg-card p-4 shadow-2xs sm:p-5",
         className
       )}
     >
       {/* Header with Collapsible Toggle */}
-      <div className="flex items-center justify-between pb-3 border-b border-border/80">
+      <div className="flex items-center justify-between border-b border-border/80 pb-3">
         <div className="flex items-center gap-2">
           <ShoppingBag className="size-4 text-primary" />
           <h3 className="font-heading text-base font-bold text-foreground">
             {isZh ? "訂單摘要" : "Order Summary"}
           </h3>
-          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-            {totalItemsCount} {isZh ? "件" : totalItemsCount === 1 ? "item" : "items"}
+          <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-xs font-bold text-muted-foreground">
+            {totalItemsCount}{" "}
+            {isZh ? "件" : totalItemsCount === 1 ? "item" : "items"}
           </span>
         </div>
 
         <button
           type="button"
           onClick={() => setIsItemsExpanded(!isItemsExpanded)}
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground font-medium cursor-pointer"
+          className="inline-flex cursor-pointer items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
           aria-expanded={isItemsExpanded}
         >
-          <span>{isItemsExpanded ? (isZh ? "收起清單" : "Hide Items") : (isZh ? "查看商品" : "Show Items")}</span>
-          {isItemsExpanded ? <ChevronUp className="size-3.5" /> : <ChevronDown className="size-3.5" />}
+          <span>
+            {isItemsExpanded
+              ? isZh
+                ? "收起清單"
+                : "Hide Items"
+              : isZh
+                ? "查看商品"
+                : "Show Items"}
+          </span>
+          {isItemsExpanded ? (
+            <ChevronUp className="size-3.5" />
+          ) : (
+            <ChevronDown className="size-3.5" />
+          )}
         </button>
       </div>
 
       {/* Collapsible Items List */}
       {isItemsExpanded && (
-        <div className="max-h-64 overflow-y-auto space-y-3 pr-1 divide-y divide-border/50">
+        <div className="max-h-64 space-y-3 divide-y divide-border/50 overflow-y-auto pr-1">
           {items.map((item) => (
-            <div key={item.variantId} className="pt-3 first:pt-0 flex items-start gap-3">
-              <div className="relative size-12 rounded-lg border border-border/80 bg-white p-0.5 shrink-0 overflow-hidden">
+            <div
+              key={item.variantId}
+              className="flex items-start gap-3 pt-3 first:pt-0"
+            >
+              <div className="relative size-12 shrink-0 overflow-hidden rounded-lg border border-border/80 bg-white p-0.5">
                 {item.image ? (
                   <Image
                     src={item.image}
                     alt={item.title}
                     fill
                     sizes="48px"
-                    className="object-contain p-0.5"
+                    className="object-coverp-0.5"
                     unoptimized
                   />
                 ) : (
@@ -83,8 +106,8 @@ export function CheckoutOrderSummary({
                 )}
               </div>
 
-              <div className="flex-1 min-w-0 space-y-0.5">
-                <h4 className="text-xs font-bold text-foreground line-clamp-1">
+              <div className="min-w-0 flex-1 space-y-0.5">
+                <h4 className="line-clamp-1 text-xs font-bold text-foreground">
                   {item.title}
                 </h4>
                 <div className="flex items-center justify-between text-[11px] text-muted-foreground">
@@ -102,7 +125,7 @@ export function CheckoutOrderSummary({
       )}
 
       {/* Itemized Price Calculations */}
-      <div className="space-y-2 pt-2 border-t border-border/70 text-xs sm:text-sm">
+      <div className="space-y-2 border-t border-border/70 pt-2 text-xs sm:text-sm">
         <div className="flex items-center justify-between text-muted-foreground">
           <span>{isZh ? "商品小計" : "Subtotal"}</span>
           <span className="font-mono font-bold text-foreground">
@@ -113,7 +136,9 @@ export function CheckoutOrderSummary({
         {productDiscounts > 0 && (
           <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
             <span>{isZh ? "商品立減優惠" : "Product Savings"}</span>
-            <span className="font-mono font-bold">-HK${productDiscounts.toFixed(2)}</span>
+            <span className="font-mono font-bold">
+              -HK${productDiscounts.toFixed(2)}
+            </span>
           </div>
         )}
 
@@ -121,9 +146,15 @@ export function CheckoutOrderSummary({
           <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
             <span className="flex items-center gap-1">
               <Tag className="size-3" />
-              <span>{isZh ? `優惠碼 (${appliedCoupon.code})` : `Coupon (${appliedCoupon.code})`}</span>
+              <span>
+                {isZh
+                  ? `優惠碼 (${appliedCoupon.code})`
+                  : `Coupon (${appliedCoupon.code})`}
+              </span>
             </span>
-            <span className="font-mono font-bold">-HK${couponDiscount.toFixed(2)}</span>
+            <span className="font-mono font-bold">
+              -HK${couponDiscount.toFixed(2)}
+            </span>
           </div>
         )}
 
@@ -134,41 +165,49 @@ export function CheckoutOrderSummary({
           </span>
           <span className="font-mono font-bold">
             {deliveryFee === 0 ? (
-              <span className="text-emerald-600 dark:text-emerald-400 font-extrabold uppercase">
+              <span className="font-extrabold text-emerald-600 uppercase dark:text-emerald-400">
                 {isZh ? "免費" : "FREE"}
               </span>
             ) : (
-              <span className="text-foreground">HK${deliveryFee.toFixed(2)}</span>
+              <span className="text-foreground">
+                HK${deliveryFee.toFixed(2)}
+              </span>
             )}
           </span>
         </div>
 
         {/* Taxes in Hong Kong */}
-        <div className="flex items-center justify-between text-muted-foreground text-[11px]">
-          <span>{isZh ? "營業稅 / 增值稅 (香港 0%)" : "Sales Tax / GST (HK 0%)"}</span>
+        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+          <span>
+            {isZh ? "營業稅 / 增值稅 (香港 0%)" : "Sales Tax / GST (HK 0%)"}
+          </span>
           <span className="font-mono">HK$0.00</span>
         </div>
 
         <div className="border-t border-border/80 pt-2" />
 
         {/* Final Payable Total */}
-        <div className="flex items-baseline justify-between font-bold text-base sm:text-lg text-foreground">
+        <div className="flex items-baseline justify-between text-base font-bold text-foreground sm:text-lg">
           <div className="flex flex-col">
             <span>{isZh ? "應付總額" : "Total Amount"}</span>
             <span className="text-[10px] font-normal text-muted-foreground">
               {isZh ? "港幣結算 (HKD)" : "Charged in HKD"}
             </span>
           </div>
-          <span className="font-mono text-xl sm:text-2xl font-black text-primary">
+          <span className="font-mono text-xl font-black text-primary sm:text-2xl">
             HK${total.toFixed(2)}
           </span>
         </div>
       </div>
 
       {/* Trust Notice */}
-      <div className="pt-2 border-t border-border/50 flex items-center gap-2 text-[11px] text-muted-foreground">
-        <ShieldCheck className="size-3.5 text-primary shrink-0" />
-        <span>{isZh ? "香港全境配送保證 • 新鮮食材滿意保證" : "Territory-wide delivery • Quality grocery guarantee"}</span>
+      <div className="flex items-center gap-2 border-t border-border/50 pt-2 text-[11px] text-muted-foreground">
+        <ShieldCheck className="size-3.5 shrink-0 text-primary" />
+        <span>
+          {isZh
+            ? "香港全境配送保證 • 新鮮食材滿意保證"
+            : "Territory-wide delivery • Quality grocery guarantee"}
+        </span>
       </div>
     </div>
   )

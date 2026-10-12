@@ -19,10 +19,12 @@ import { ThemeToggle } from "@/components/common/theme-toggle"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { setLanguage } from "@/features/ui/localeSlice"
 import { openAuthModal, toggleMobileMenu } from "@/features/ui/uiSlice"
+import { getThemeLogo } from "@/config/themes"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function Header() {
   const dispatch = useAppDispatch()
+  const themeId = useAppSelector((state) => state.theme.themeId)
   const locale = useAppSelector((state) => state.locale.language)
   const user = useAppSelector((state) => state.auth.user)
   const cartItems = useAppSelector((state) => state.cart.items)
@@ -96,7 +98,7 @@ export function Header() {
           >
             <div className="relative size-11 shrink-0 overflow-hidden rounded-xl border border-border/50 shadow-xs transition-transform group-hover:scale-105">
               <Image
-                src="/images/brand/Happymartlogo.png"
+                src={getThemeLogo(themeId)}
                 alt="Happymart Supermarket Logo"
                 width={44}
                 height={44}

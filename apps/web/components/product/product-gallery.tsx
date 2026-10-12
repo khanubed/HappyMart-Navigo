@@ -26,7 +26,8 @@ export function ProductGallery({
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
 
-  const images = product.images && product.images.length > 0 ? product.images : []
+  const images =
+    product.images && product.images.length > 0 ? product.images : []
   const activeImage = images[selectedIndex] || images[0]
 
   const handlePrev = () => {
@@ -67,7 +68,7 @@ export function ProductGallery({
     <div className={cn("flex flex-col gap-3", className)}>
       {/* Main Image Stage */}
       <div
-        className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border/80 bg-white dark:bg-card p-4 sm:p-6 shadow-2xs select-none touch-pan-y"
+        className="relative aspect-square w-full touch-pan-y overflow-hidden rounded-2xl border border-border/80 bg-white p-4 shadow-2xs select-none sm:p-6 dark:bg-card"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -83,7 +84,7 @@ export function ProductGallery({
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
               priority
-              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              className="object-covertransition-transform duration-300 group-hover:scale-105"
               onError={() => setHasError(true)}
               unoptimized
             />
@@ -95,7 +96,7 @@ export function ProductGallery({
         )}
 
         {/* Dietary & Offer Badges Overlay Top-Left */}
-        <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10 pointer-events-none">
+        <div className="pointer-events-none absolute top-3 left-3 z-10 flex flex-wrap gap-1.5">
           {product.isVeg && <Badge variant="veg" size="sm" />}
           {product.isHalal && <Badge variant="halal" size="sm" />}
           {discountPercent > 0 && (
@@ -115,9 +116,9 @@ export function ProductGallery({
           type="button"
           onClick={() => setIsModalOpen(true)}
           aria-label="Zoom image"
-          className="absolute top-3 right-3 flex size-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground shadow-2xs backdrop-blur-xs transition-colors hover:bg-background hover:text-foreground cursor-pointer"
+          className="absolute top-3 right-3 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background/80 text-primary shadow-2xs backdrop-blur-xs transition-colors hover:bg-background"
         >
-          <ZoomIn className="size-4" />
+          <ZoomIn className="size-4 text-primary" />
         </button>
 
         {/* Next / Prev Controls (only if multiple images) */}
@@ -127,17 +128,17 @@ export function ProductGallery({
               type="button"
               onClick={handlePrev}
               aria-label="Previous image"
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-background/90 text-foreground shadow-xs transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+              className="absolute top-1/2 left-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background/90 text-primary shadow-xs transition-transform hover:scale-110 active:scale-95"
             >
-              <ChevronLeft className="size-4.5" />
+              <ChevronLeft className="size-4.5 text-primary" />
             </button>
             <button
               type="button"
               onClick={handleNext}
               aria-label="Next image"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 flex size-8 items-center justify-center rounded-full bg-background/90 text-foreground shadow-xs transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+              className="absolute top-1/2 right-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background/90 text-primary shadow-xs transition-transform hover:scale-110 active:scale-95"
             >
-              <ChevronRight className="size-4.5" />
+              <ChevronRight className="size-4.5 text-primary" />
             </button>
           </>
         )}
@@ -154,10 +155,10 @@ export function ProductGallery({
                 type="button"
                 onClick={() => setSelectedIndex(idx)}
                 className={cn(
-                  "relative size-16 shrink-0 overflow-hidden rounded-xl border bg-white dark:bg-card p-1.5 transition-all cursor-pointer",
+                  "relative size-16 shrink-0 cursor-pointer overflow-hidden rounded-xl border bg-white p-1.5 transition-all dark:bg-card",
                   isSelected
-                    ? "border-primary ring-2 ring-primary/20 shadow-xs"
-                    : "border-border/70 opacity-70 hover:opacity-100 hover:border-primary/50"
+                    ? "border-primary shadow-xs ring-2 ring-primary/20"
+                    : "border-border/70 opacity-70 hover:border-primary/50 hover:opacity-100"
                 )}
                 aria-label={`Select product image ${idx + 1}`}
                 aria-current={isSelected ? "true" : undefined}
@@ -167,7 +168,7 @@ export function ProductGallery({
                   alt={`Thumbnail ${idx + 1}`}
                   fill
                   sizes="64px"
-                  className="object-contain p-0.5"
+                  className="object-cover"
                   unoptimized
                 />
               </button>
@@ -178,17 +179,17 @@ export function ProductGallery({
 
       {/* Full-Screen Zoom Modal */}
       {isModalOpen && activeImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in-0 duration-200">
+        <div className="fixed inset-0 z-50 flex animate-in items-center justify-center bg-black/80 p-4 backdrop-blur-sm duration-200 fade-in-0">
           <button
             type="button"
             onClick={() => setIsModalOpen(false)}
             aria-label="Close zoomed view"
-            className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 flex size-10 cursor-pointer items-center justify-center rounded-full bg-white/20 text-white transition-colors hover:bg-white/30"
           >
             <X className="size-6" />
           </button>
 
-          <div className="relative max-w-4xl max-h-[85vh] w-full h-[80vh] flex items-center justify-center">
+          <div className="relative flex h-[80vh] max-h-[85vh] w-full max-w-4xl items-center justify-center">
             <Image
               src={activeImage}
               alt={product.titleEn}

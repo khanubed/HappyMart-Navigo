@@ -3,18 +3,34 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { X, ChevronRight, Phone, Globe, Sparkles, LayoutGrid } from "lucide-react"
+import {
+  X,
+  ChevronRight,
+  Phone,
+  Globe,
+  Sparkles,
+  LayoutGrid,
+} from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
-import { parentCategories, categories, countries, brands } from "@workspace/mock-data"
+import {
+  parentCategories,
+  categories,
+  countries,
+  brands,
+} from "@workspace/mock-data"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { toggleMobileMenu, toggleFilterSheet } from "@/features/ui/uiSlice"
 import { setLanguage } from "@/features/ui/localeSlice"
+import { getThemeLogo } from "@/config/themes"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function MobileDrawer() {
   const dispatch = useAppDispatch()
+  const themeId = useAppSelector((state) => state.theme.themeId)
   const isMenuOpen = useAppSelector((state) => state.ui.isMobileMenuOpen)
-  const isFilterSheetOpen = useAppSelector((state) => state.ui.isFilterSheetOpen)
+  const isFilterSheetOpen = useAppSelector(
+    (state) => state.ui.isFilterSheetOpen
+  )
   const locale = useAppSelector((state) => state.locale.language)
   const isZh = locale === "zh-HK"
 
@@ -36,21 +52,21 @@ export function MobileDrawer() {
       />
 
       {/* Slide-over panel */}
-      <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-background border-r border-border p-5 flex flex-col justify-between overflow-y-auto shadow-2xl animate-in slide-in-from-left duration-200">
+      <div className="fixed inset-y-0 left-0 flex w-full max-w-xs animate-in flex-col justify-between overflow-y-auto border-r border-border bg-background p-5 shadow-2xl duration-200 slide-in-from-left">
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-border">
+          <div className="flex items-center justify-between border-b border-border pb-3">
             <div className="flex items-center gap-2.5">
-              <div className="relative size-8 rounded-lg overflow-hidden shrink-0 border border-border/50">
+              <div className="relative size-8 shrink-0 overflow-hidden rounded-lg border border-border/50">
                 <Image
-                  src="/images/brand/Happymartlogo.png"
+                  src={getThemeLogo(themeId)}
                   alt="Happymart Supermarket Logo"
                   width={32}
                   height={32}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
-              <span className="font-heading font-black text-lg">
+              <span className="font-heading text-lg font-black">
                 Happy<span className="text-accent">mart</span>
               </span>
             </div>
@@ -67,7 +83,7 @@ export function MobileDrawer() {
           </div>
 
           {/* Language Toggle */}
-          <div className="flex items-center justify-between p-2 rounded-xl bg-muted text-xs font-bold">
+          <div className="flex items-center justify-between rounded-xl bg-muted p-2 text-xs font-bold">
             <span className="flex items-center gap-1.5 text-muted-foreground">
               <Globe className="size-3.5" /> Language:
             </span>
@@ -77,8 +93,10 @@ export function MobileDrawer() {
                 suppressHydrationWarning
                 onClick={() => dispatch(setLanguage("en"))}
                 className={cn(
-                  "px-2 py-1 rounded-md transition-colors",
-                  !isZh ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+                  "rounded-md px-2 py-1 transition-colors",
+                  !isZh
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground"
                 )}
               >
                 English
@@ -88,8 +106,10 @@ export function MobileDrawer() {
                 suppressHydrationWarning
                 onClick={() => dispatch(setLanguage("zh-HK"))}
                 className={cn(
-                  "px-2 py-1 rounded-md transition-colors",
-                  isZh ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+                  "rounded-md px-2 py-1 transition-colors",
+                  isZh
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground"
                 )}
               >
                 繁體中文
@@ -101,11 +121,13 @@ export function MobileDrawer() {
           <Link
             href="/products"
             onClick={handleClose}
-            className="flex items-center justify-between p-2.5 rounded-xl bg-primary/10 border border-primary/25 text-primary font-bold text-xs hover:bg-primary/20 transition-all active:scale-98"
+            className="flex items-center justify-between rounded-xl border border-primary/25 bg-primary/10 p-2.5 text-xs font-bold text-primary transition-all hover:bg-primary/20 active:scale-98"
           >
             <span className="flex items-center gap-2">
               <Sparkles className="size-4 text-accent" />
-              <span>{isZh ? "全部商品庫 (瀏覽全部)" : "All Products Catalog"}</span>
+              <span>
+                {isZh ? "全部商品庫 (瀏覽全部)" : "All Products Catalog"}
+              </span>
             </span>
             <ChevronRight className="size-4" />
           </Link>
@@ -114,7 +136,7 @@ export function MobileDrawer() {
           <Link
             href="/categories"
             onClick={handleClose}
-            className="flex items-center justify-between p-2.5 rounded-xl bg-muted/60 border border-border/80 text-foreground font-bold text-xs hover:bg-muted transition-all active:scale-98"
+            className="flex items-center justify-between rounded-xl border border-border/80 bg-muted/60 p-2.5 text-xs font-bold text-foreground transition-all hover:bg-muted active:scale-98"
           >
             <span className="flex items-center gap-2">
               <LayoutGrid className="size-4 text-primary" />
@@ -125,7 +147,7 @@ export function MobileDrawer() {
 
           {/* Shop By Country */}
           <div className="space-y-2">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+            <h4 className="text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
               {isZh ? "國家專區" : "Shop By Country"}
             </h4>
             <div className="grid grid-cols-2 gap-2 text-xs">
@@ -134,7 +156,7 @@ export function MobileDrawer() {
                   key={c.id}
                   href={`/countries/${c.code.toLowerCase()}`}
                   onClick={handleClose}
-                  className="flex items-center gap-1.5 p-2 rounded-lg border border-border/80 bg-card hover:bg-muted font-semibold text-foreground truncate"
+                  className="flex items-center gap-1.5 truncate rounded-lg border border-border/80 bg-card p-2 font-semibold text-foreground hover:bg-muted"
                 >
                   <span>{c.flag}</span>
                   <span className="truncate">{isZh ? c.nameZh : c.nameEn}</span>
@@ -146,7 +168,7 @@ export function MobileDrawer() {
           {/* Featured Brands */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              <h4 className="text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
                 {isZh ? "熱門品牌" : "Featured Brands"}
               </h4>
               <Link
@@ -166,7 +188,7 @@ export function MobileDrawer() {
                     key={b.id}
                     href={`/brands/${b.slug}`}
                     onClick={handleClose}
-                    className="flex flex-col items-center gap-1.5 p-2 rounded-lg border border-border/80 bg-card hover:bg-muted text-center"
+                    className="flex flex-col items-center gap-1.5 rounded-lg border border-border/80 bg-card p-2 text-center hover:bg-muted"
                   >
                     <div className="relative size-8 shrink-0 overflow-hidden rounded border border-border/60 bg-white p-0.5">
                       <Image
@@ -174,11 +196,11 @@ export function MobileDrawer() {
                         alt={b.name}
                         fill
                         sizes="32px"
-                        className="object-contain p-0.5"
+                        className="object-coverp-0.5"
                         unoptimized
                       />
                     </div>
-                    <span className="truncate w-full text-[11px] font-medium text-foreground">
+                    <span className="w-full truncate text-[11px] font-medium text-foreground">
                       {b.name}
                     </span>
                   </Link>
@@ -188,7 +210,7 @@ export function MobileDrawer() {
 
           {/* Parent Departments */}
           <div className="space-y-2">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+            <h4 className="text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
               {isZh ? "全館專區分類" : "Shop By Department"}
             </h4>
             <ul className="space-y-1 text-xs font-medium">
@@ -197,7 +219,7 @@ export function MobileDrawer() {
                   <Link
                     href={`/categories/${parent.slug}`}
                     onClick={handleClose}
-                    className="flex items-center justify-between p-2 rounded-lg hover:bg-muted text-foreground transition-colors font-semibold"
+                    className="flex items-center justify-between rounded-lg p-2 font-semibold text-foreground transition-colors hover:bg-muted"
                   >
                     <span>{isZh ? parent.nameZh : parent.nameEn}</span>
                     <ChevronRight className="size-3.5 text-muted-foreground" />
@@ -209,12 +231,12 @@ export function MobileDrawer() {
         </div>
 
         {/* WhatsApp Footer */}
-        <div className="pt-6 border-t border-border mt-6">
+        <div className="mt-6 border-t border-border pt-6">
           <a
             href="https://wa.me/85251234567"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 p-3 rounded-xl bg-success/15 border border-success/30 text-success text-xs font-bold"
+            className="flex items-center gap-2 rounded-xl border border-success/30 bg-success/15 p-3 text-xs font-bold text-success"
           >
             <Phone className="size-4" />
             <span>WhatsApp: +852 5123 4567</span>

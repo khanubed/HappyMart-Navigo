@@ -58,21 +58,26 @@
   max-width: 90rem;
 }
 
-:root {
-  /* Happymart Design Tokens (Light Theme) */
+/* ==========================================================================
+   THEME 1: FRESH MARKET (Default)
+   Deep grocery green primary, white surfaces, saffron accents.
+   ========================================================================== */
+:root,
+:root[data-theme="fresh-market"],
+html[data-theme="fresh-market"] {
   --background: #FFFFFF;
   --foreground: #1A1A1A;
   --card: #FFFFFF;
   --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
   --popover-foreground: #1A1A1A;
-  --primary: #1F6F54; /* Deep green */
+  --primary: #1F6F54;
   --primary-foreground: #FFFFFF;
-  --secondary: #EAF2EE; /* Subtle green surface */
+  --secondary: #EAF2EE;
   --secondary-foreground: #1F6F54;
   --muted: #F4F6F5;
   --muted-foreground: #5F6B66;
-  --accent: #E8A33D; /* Saffron */
+  --accent: #E8A33D;
   --accent-foreground: #FFFFFF;
   --destructive: #C0392B;
   --destructive-foreground: #FFFFFF;
@@ -83,9 +88,8 @@
   --border: #E3E8E5;
   --input: #E3E8E5;
   --ring: #1F6F54;
-  --radius: 0.5rem; /* 8px base */
+  --radius: 0.5rem;
 
-  /* Sidebar Tokens */
   --sidebar: #F4F6F5;
   --sidebar-foreground: #1A1A1A;
   --sidebar-primary: #1F6F54;
@@ -96,21 +100,23 @@
   --sidebar-ring: #1F6F54;
 }
 
-.dark {
-  /* Happymart Design Tokens (Dark Theme) */
+.dark,
+:root.dark,
+:root.dark[data-theme="fresh-market"],
+html.dark[data-theme="fresh-market"] {
   --background: #0F1512;
   --foreground: #F2F5F3;
   --card: #18211D;
   --card-foreground: #F2F5F3;
   --popover: #18211D;
   --popover-foreground: #F2F5F3;
-  --primary: #3DB88B; /* Vibrant emerald */
+  --primary: #3DB88B;
   --primary-foreground: #0B1410;
   --secondary: #22322A;
   --secondary-foreground: #3DB88B;
   --muted: #1F2A25;
   --muted-foreground: #9AA8A1;
-  --accent: #F0B45A; /* Warm saffron */
+  --accent: #F0B45A;
   --accent-foreground: #1A1A1A;
   --destructive: #E5645A;
   --destructive-foreground: #FFFFFF;
@@ -123,7 +129,6 @@
   --ring: #3DB88B;
   --radius: 0.5rem;
 
-  /* Sidebar Tokens */
   --sidebar: #141C18;
   --sidebar-foreground: #F2F5F3;
   --sidebar-primary: #3DB88B;
@@ -132,6 +137,322 @@
   --sidebar-accent-foreground: #3DB88B;
   --sidebar-border: #2A3731;
   --sidebar-ring: #3DB88B;
+}
+
+/* ==========================================================================
+   THEME 2: MARKET RED
+   Confident retail-red primary, pale-red secondary, warm gold accents.
+   ========================================================================== */
+:root[data-theme="market-red"],
+html[data-theme="market-red"] {
+  --background: #FFFFFF;
+  --foreground: #241B1B;
+  --card: #FFFFFF;
+  --card-foreground: #241B1B;
+  --popover: #FFFFFF;
+  --popover-foreground: #241B1B;
+  --primary: #B83232;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F8EAE8;
+  --secondary-foreground: #B83232;
+  --muted: #F7F2F2;
+  --muted-foreground: #6E5D5D;
+  --accent: #E9B949;
+  --accent-foreground: #241B1B;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --success: #2E9E5B;
+  --success-foreground: #FFFFFF;
+  --warning: #D97706;
+  --warning-foreground: #FFFFFF;
+  --border: #EBDDDC;
+  --input: #EBDDDC;
+  --ring: #B83232;
+  --radius: 0.5rem;
+
+  --sidebar: #F7F2F2;
+  --sidebar-foreground: #241B1B;
+  --sidebar-primary: #B83232;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F8EAE8;
+  --sidebar-accent-foreground: #B83232;
+  --sidebar-border: #EBDDDC;
+  --sidebar-ring: #B83232;
+}
+
+:root.dark[data-theme="market-red"],
+html.dark[data-theme="market-red"],
+[data-theme="market-red"].dark {
+  --background: #171010;
+  --foreground: #F7EDED;
+  --card: #241919;
+  --card-foreground: #F7EDED;
+  --popover: #241919;
+  --popover-foreground: #F7EDED;
+  --primary: #E05252;
+  --primary-foreground: #171010;
+  --secondary: #352121;
+  --secondary-foreground: #F28B8B;
+  --muted: #2A1D1D;
+  --muted-foreground: #A89595;
+  --accent: #F3C765;
+  --accent-foreground: #171010;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --success: #4CC983;
+  --success-foreground: #0B1410;
+  --warning: #F59E0B;
+  --warning-foreground: #171010;
+  --border: #3D2929;
+  --input: #3D2929;
+  --ring: #E05252;
+  --radius: 0.5rem;
+
+  --sidebar: #1E1414;
+  --sidebar-foreground: #F7EDED;
+  --sidebar-primary: #E05252;
+  --sidebar-primary-foreground: #171010;
+  --sidebar-accent: #352121;
+  --sidebar-accent-foreground: #F28B8B;
+  --sidebar-border: #3D2929;
+  --sidebar-ring: #E05252;
+}
+
+/* ==========================================================================
+   THEME 3: URBAN BLUE
+   Contemporary blue primary, cool surfaces, restrained gold accents.
+   ========================================================================== */
+:root[data-theme="urban-blue"],
+html[data-theme="urban-blue"] {
+  --background: #FFFFFF;
+  --foreground: #172235;
+  --card: #FFFFFF;
+  --card-foreground: #172235;
+  --popover: #FFFFFF;
+  --popover-foreground: #172235;
+  --primary: #2457A7;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E9F0FB;
+  --secondary-foreground: #2457A7;
+  --muted: #F0F4FA;
+  --muted-foreground: #586982;
+  --accent: #E6B655;
+  --accent-foreground: #172235;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --success: #2E9E5B;
+  --success-foreground: #FFFFFF;
+  --warning: #D97706;
+  --warning-foreground: #FFFFFF;
+  --border: #DCE4F0;
+  --input: #DCE4F0;
+  --ring: #2457A7;
+  --radius: 0.5rem;
+
+  --sidebar: #F0F4FA;
+  --sidebar-foreground: #172235;
+  --sidebar-primary: #2457A7;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E9F0FB;
+  --sidebar-accent-foreground: #2457A7;
+  --sidebar-border: #DCE4F0;
+  --sidebar-ring: #2457A7;
+}
+
+:root.dark[data-theme="urban-blue"],
+html.dark[data-theme="urban-blue"],
+[data-theme="urban-blue"].dark {
+  --background: #0E1522;
+  --foreground: #EDF3FD;
+  --card: #162134;
+  --card-foreground: #EDF3FD;
+  --popover: #162134;
+  --popover-foreground: #EDF3FD;
+  --primary: #4A83DC;
+  --primary-foreground: #0A101C;
+  --secondary: #202F47;
+  --secondary-foreground: #6BA1F0;
+  --muted: #1A273D;
+  --muted-foreground: #91A3BE;
+  --accent: #ECC272;
+  --accent-foreground: #0E1522;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --success: #4CC983;
+  --success-foreground: #0B1410;
+  --warning: #F59E0B;
+  --warning-foreground: #0E1522;
+  --border: #283A55;
+  --input: #283A55;
+  --ring: #4A83DC;
+  --radius: 0.5rem;
+
+  --sidebar: #121B2B;
+  --sidebar-foreground: #EDF3FD;
+  --sidebar-primary: #4A83DC;
+  --sidebar-primary-foreground: #0A101C;
+  --sidebar-accent: #202F47;
+  --sidebar-accent-foreground: #6BA1F0;
+  --sidebar-border: #283A55;
+  --sidebar-ring: #4A83DC;
+}
+
+/* ==========================================================================
+   THEME 4: PANTRY EARTH
+   Warm cream background, earthy brown primary, clay accents.
+   ========================================================================== */
+:root[data-theme="pantry-earth"],
+html[data-theme="pantry-earth"] {
+  --background: #FFFCF6;
+  --foreground: #30261E;
+  --card: #FFFFFF;
+  --card-foreground: #30261E;
+  --popover: #FFFFFF;
+  --popover-foreground: #30261E;
+  --primary: #8A5A35;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4E9D7;
+  --secondary-foreground: #8A5A35;
+  --muted: #F5ECE1;
+  --muted-foreground: #736154;
+  --accent: #B86B4B;
+  --accent-foreground: #FFFFFF;
+  --destructive: #C0392B;
+  --destructive-foreground: #FFFFFF;
+  --success: #2E9E5B;
+  --success-foreground: #FFFFFF;
+  --warning: #D98E04;
+  --warning-foreground: #FFFFFF;
+  --border: #E7DBCF;
+  --input: #E7DBCF;
+  --ring: #8A5A35;
+  --radius: 0.5rem;
+
+  --sidebar: #F5ECE1;
+  --sidebar-foreground: #30261E;
+  --sidebar-primary: #8A5A35;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F4E9D7;
+  --sidebar-accent-foreground: #8A5A35;
+  --sidebar-border: #E7DBCF;
+  --sidebar-ring: #8A5A35;
+}
+
+:root.dark[data-theme="pantry-earth"],
+html.dark[data-theme="pantry-earth"],
+[data-theme="pantry-earth"].dark {
+  --background: #171310;
+  --foreground: #F7F2EB;
+  --card: #241E1A;
+  --card-foreground: #F7F2EB;
+  --popover: #241E1A;
+  --popover-foreground: #F7F2EB;
+  --primary: #BA8358;
+  --primary-foreground: #171310;
+  --secondary: #352A23;
+  --secondary-foreground: #D4A37B;
+  --muted: #2A231E;
+  --muted-foreground: #A8988C;
+  --accent: #CF8565;
+  --accent-foreground: #171310;
+  --destructive: #E5645A;
+  --destructive-foreground: #FFFFFF;
+  --success: #4CC983;
+  --success-foreground: #0B1410;
+  --warning: #F2B23A;
+  --warning-foreground: #171310;
+  --border: #3B312B;
+  --input: #3B312B;
+  --ring: #BA8358;
+  --radius: 0.5rem;
+
+  --sidebar: #1C1713;
+  --sidebar-foreground: #F7F2EB;
+  --sidebar-primary: #BA8358;
+  --sidebar-primary-foreground: #171310;
+  --sidebar-accent: #352A23;
+  --sidebar-accent-foreground: #D4A37B;
+  --sidebar-border: #3B312B;
+  --sidebar-ring: #BA8358;
+}
+
+/* ==========================================================================
+   THEME 5: MODERN PLUM
+   Muted plum-purple primary, lavender surfaces, subtle warm gold accents.
+   ========================================================================== */
+:root[data-theme="modern-plum"],
+html[data-theme="modern-plum"] {
+  --background: #FFFFFF;
+  --foreground: #251F32;
+  --card: #FFFFFF;
+  --card-foreground: #251F32;
+  --popover: #FFFFFF;
+  --popover-foreground: #251F32;
+  --primary: #6552A3;
+  --primary-foreground: #FFFFFF;
+  --secondary: #EFEAF9;
+  --secondary-foreground: #6552A3;
+  --muted: #F5F2FA;
+  --muted-foreground: #6B607E;
+  --accent: #D4A85B;
+  --accent-foreground: #251F32;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --success: #2E9E5B;
+  --success-foreground: #FFFFFF;
+  --warning: #D97706;
+  --warning-foreground: #FFFFFF;
+  --border: #E3DDEC;
+  --input: #E3DDEC;
+  --ring: #6552A3;
+  --radius: 0.5rem;
+
+  --sidebar: #F5F2FA;
+  --sidebar-foreground: #251F32;
+  --sidebar-primary: #6552A3;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #EFEAF9;
+  --sidebar-accent-foreground: #6552A3;
+  --sidebar-border: #E3DDEC;
+  --sidebar-ring: #6552A3;
+}
+
+:root.dark[data-theme="modern-plum"],
+html.dark[data-theme="modern-plum"],
+[data-theme="modern-plum"].dark {
+  --background: #14101A;
+  --foreground: #F4F0FA;
+  --card: #1F1928;
+  --card-foreground: #F4F0FA;
+  --popover: #1F1928;
+  --popover-foreground: #F4F0FA;
+  --primary: #8E7ACB;
+  --primary-foreground: #0E0A14;
+  --secondary: #2C223A;
+  --secondary-foreground: #AA98DF;
+  --muted: #251D30;
+  --muted-foreground: #A094B5;
+  --accent: #DFC07C;
+  --accent-foreground: #14101A;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --success: #4CC983;
+  --success-foreground: #0B1410;
+  --warning: #F59E0B;
+  --warning-foreground: #14101A;
+  --border: #362A48;
+  --input: #362A48;
+  --ring: #8E7ACB;
+  --radius: 0.5rem;
+
+  --sidebar: #191421;
+  --sidebar-foreground: #F4F0FA;
+  --sidebar-primary: #8E7ACB;
+  --sidebar-primary-foreground: #0E0A14;
+  --sidebar-accent: #2C223A;
+  --sidebar-accent-foreground: #AA98DF;
+  --sidebar-border: #362A48;
+  --sidebar-ring: #8E7ACB;
 }
 
 @layer base {

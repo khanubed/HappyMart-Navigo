@@ -30,6 +30,12 @@ export type AuthStatus = 'idle' | 'loading' | 'authenticated' | 'guest';
 // ==========================================
 
 export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeId =
+  | 'fresh-market'
+  | 'market-red'
+  | 'urban-blue'
+  | 'pantry-earth'
+  | 'modern-plum';
 export type LanguageLocale = 'en' | 'zh-HK';
 
 // ==========================================

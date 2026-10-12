@@ -63,7 +63,7 @@ export function CategoryGrid() {
           </>
         )
       }
-      viewAllHref="/departments"
+      viewAllHref="/categories"
       viewAllLabel={
         isZh
           ? `查看全部 ${parentCategories.length} 個專區`

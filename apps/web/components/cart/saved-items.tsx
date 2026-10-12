@@ -28,14 +28,14 @@ export function SavedItems({
   return (
     <section
       aria-label={isZh ? "稍後購買的商品" : "Saved for Later"}
-      className={cn("space-y-4 pt-6 border-t border-border/80", className)}
+      className={cn("space-y-4 border-t border-border/80 pt-6", className)}
     >
       <div className="flex items-center gap-2">
         <Bookmark className="size-4 text-primary" />
-        <h2 className="font-heading text-base sm:text-lg font-bold text-foreground">
+        <h2 className="font-heading text-base font-bold text-foreground sm:text-lg">
           {isZh ? "稍後購買" : "Saved for Later"}
         </h2>
-        <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+        <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-xs font-bold text-muted-foreground">
           {savedItems.length}
         </span>
       </div>
@@ -69,12 +69,12 @@ function SavedItemRow({
   const [imgError, setImgError] = useState(false)
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 py-3.5 first:pt-0">
-      <div className="flex items-start gap-3 min-w-0 flex-1">
+    <div className="flex flex-col items-start justify-between gap-3 py-3.5 first:pt-0 sm:flex-row sm:items-center sm:gap-4">
+      <div className="flex min-w-0 flex-1 items-start gap-3">
         {/* Thumbnail */}
         <Link
           href={`/products/${item.productId}`}
-          className="relative size-14 shrink-0 overflow-hidden rounded-lg border border-border bg-white p-1 hover:border-primary/50 transition-colors"
+          className="relative size-14 shrink-0 overflow-hidden rounded-lg border border-border bg-white p-1 transition-colors hover:border-primary/50"
         >
           {item.image && !imgError ? (
             <Image
@@ -82,7 +82,7 @@ function SavedItemRow({
               alt={item.title}
               fill
               sizes="56px"
-              className="object-contain p-0.5"
+              className="object-coverp-0.5"
               onError={() => setImgError(true)}
               unoptimized
             />
@@ -96,14 +96,14 @@ function SavedItemRow({
         {/* Info */}
         <div className="min-w-0 flex-1 space-y-0.5">
           {item.brand && (
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider truncate">
+            <p className="truncate text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
               {item.brand}
             </p>
           )}
 
           <Link
             href={`/products/${item.productId}`}
-            className="font-heading text-xs sm:text-sm font-bold text-foreground hover:text-primary transition-colors line-clamp-1"
+            className="line-clamp-1 font-heading text-xs font-bold text-foreground transition-colors hover:text-primary sm:text-sm"
           >
             {item.title}
           </Link>
@@ -119,7 +119,7 @@ function SavedItemRow({
             </span>
           </div>
 
-          <div className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium pt-0.5">
+          <div className="flex items-center gap-1 pt-0.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 className="size-3 shrink-0" />
             <span>{isZh ? "現貨在庫" : "In Stock"}</span>
           </div>
@@ -127,12 +127,12 @@ function SavedItemRow({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex items-center gap-2 w-full sm:w-auto justify-end pl-17 sm:pl-0">
+      <div className="flex w-full items-center justify-end gap-2 pl-17 sm:w-auto sm:pl-0">
         <Button
           size="sm"
           variant="outline"
           onClick={() => onMoveToCart(item.variantId)}
-          className="h-8 px-3 text-xs font-semibold gap-1.5 hover:border-primary hover:text-primary"
+          className="h-8 gap-1.5 px-3 text-xs font-semibold hover:border-primary hover:text-primary"
         >
           <ShoppingCart className="size-3.5" />
           <span>{isZh ? "加入購物車" : "Move to Cart"}</span>
@@ -142,7 +142,7 @@ function SavedItemRow({
           size="icon"
           variant="ghost"
           onClick={() => onRemoveSaved(item.variantId)}
-          className="size-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+          className="size-8 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
           aria-label={isZh ? "刪除此保存商品" : "Remove saved item"}
         >
           <Trash2 className="size-3.5" />

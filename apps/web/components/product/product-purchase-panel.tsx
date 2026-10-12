@@ -155,11 +155,11 @@ export function ProductPurchasePanel({
           <button
             type="button"
             onClick={handleShare}
-            className="flex size-8 items-center justify-center rounded-full border border-border/70 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer"
+            className="flex size-8 items-center justify-center rounded-full border border-border/70 text-primary hover:bg-muted transition-colors cursor-pointer"
             aria-label="Share product"
             title={copied ? (isZh ? "已複製連結！" : "Copied to clipboard!") : "Share product"}
           >
-            <Share2 className="size-3.5" />
+            <Share2 className="size-3.5 text-primary" />
           </button>
 
           {/* Wishlist Button */}
@@ -170,11 +170,11 @@ export function ProductPurchasePanel({
               "flex size-8 items-center justify-center rounded-full border border-border/70 transition-colors cursor-pointer",
               isWishlisted
                 ? "border-rose-200 bg-rose-50 text-rose-600 dark:bg-rose-950/40"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                : "text-primary hover:bg-muted"
             )}
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <Heart className={cn("size-3.5", isWishlisted && "fill-rose-500")} />
+            <Heart className={cn("size-3.5", isWishlisted ? "fill-rose-500 text-rose-500" : "text-primary")} />
           </button>
         </div>
       </div>
@@ -258,8 +258,8 @@ export function ProductPurchasePanel({
       {/* Stock Availability Indicator */}
       <div className="flex items-center gap-2 text-xs font-semibold">
         {inStock ? (
-          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-            <CheckCircle2 className="size-4" />
+          <div className="flex items-center gap-1.5 text-primary">
+            <CheckCircle2 className="size-4 text-primary" />
             <span>{isZh ? "有現貨 (專屬溫控庫存，可即時發貨)" : "In Stock (Ready for Next-Day Dispatch)"}</span>
           </div>
         ) : (
@@ -329,7 +329,7 @@ export function ProductPurchasePanel({
             onClick={handleBuyNow}
             className="w-full h-11 rounded-xl font-bold gap-2 text-xs sm:text-sm border border-border/80 hover:bg-secondary/80 cursor-pointer"
           >
-            <Zap className="size-4 text-amber-500" />
+            <Zap className="size-4 text-primary" />
             <span>{isZh ? "立即購買 (前往結帳)" : "Buy Now (Fast Checkout)"}</span>
           </Button>
         )}

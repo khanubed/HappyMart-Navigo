@@ -117,14 +117,14 @@ export function DeliveryChecker({ className }: DeliveryCheckerProps) {
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5 font-bold text-foreground">
                     {isStandard && <Truck className="size-3.5 text-primary" />}
-                    {isExpress && <Zap className="size-3.5 text-amber-500" />}
-                    {isPickup && <Package className="size-3.5 text-indigo-500" />}
+                    {isExpress && <Zap className="size-3.5 text-primary" />}
+                    {isPickup && <Package className="size-3.5 text-primary" />}
                     <span>{isZh ? opt.nameZh : opt.nameEn}</span>
                   </span>
                 </div>
 
                 <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-                  <Clock className="size-3 text-muted-foreground" />
+                  <Clock className="size-3 text-primary" />
                   <span>{isZh ? opt.earliestSlotZh : opt.earliestSlotEn}</span>
                 </p>
               </div>
@@ -132,7 +132,7 @@ export function DeliveryChecker({ className }: DeliveryCheckerProps) {
               <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs">
                 <span className="font-bold text-foreground">{feeText}</span>
                 {opt.freeThresholdCents && (
-                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <span className="text-[10px] text-primary font-semibold">
                     {isZh
                       ? `滿 HK$${opt.freeThresholdCents / 100} 免運`
                       : `Free over HK$${opt.freeThresholdCents / 100}`}
@@ -145,8 +145,8 @@ export function DeliveryChecker({ className }: DeliveryCheckerProps) {
       </div>
 
       {/* Delivery Guarantee Notice */}
-      <div className="flex items-center gap-2 rounded-xl bg-emerald-500/10 px-3 py-2 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-medium">
-        <CheckCircle2 className="size-3.5 shrink-0" />
+      <div className="flex items-center gap-2 rounded-xl bg-primary/10 px-3 py-2 border border-primary/20 text-foreground text-[11px] font-medium">
+        <CheckCircle2 className="size-3.5 text-primary shrink-0" />
         <span>
           {isZh
             ? `下午 4:00 前下單，全港即享最快翌日送達。全單滿 HK$500 即享免運費直送！`

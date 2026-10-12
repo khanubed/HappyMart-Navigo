@@ -34,7 +34,7 @@ export function CategoryBreadcrumbs({
             href="/"
             className="flex items-center gap-1 transition-colors hover:text-foreground"
           >
-            <Home className="size-3.5" />
+            <Home className="size-3.5 text-primary" />
             <span className="sr-only">Home</span>
             <span>{isZh ? "首頁" : "Home"}</span>
           </Link>

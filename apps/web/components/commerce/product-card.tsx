@@ -118,7 +118,7 @@ export function ProductCard({
         <Link
           href={productHref}
           aria-label={`View ${product.titleEn}`}
-          className="relative flex aspect-square w-full items-center justify-center p-2"
+          className="relative flex aspect-square w-full items-center justify-center"
           onClick={(event) => {
             if (onCardClick) {
               event.preventDefault()
@@ -131,7 +131,7 @@ export function ProductCard({
               alt={product.titleEn}
               fill
               sizes="(max-width: 639px) 40vw, (max-width: 1023px) 25vw, 15vw"
-              className="object-contain p-1.5 sm:p-2 transition-transform duration-300 group-hover:scale-105"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               onError={() => setImgError(true)}
             />
           ) : (
@@ -169,7 +169,7 @@ export function ProductCard({
           <Heart
             className={cn(
               "size-3.5 sm:size-4",
-              isWishlisted && "fill-rose-500 text-rose-500",
+              isWishlisted ? "fill-rose-500 text-rose-500" : "text-primary",
             )}
             strokeWidth={1.7}
           />

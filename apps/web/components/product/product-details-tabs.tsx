@@ -68,7 +68,7 @@ export function ProductDetailsTabs({
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
-              <Icon className="size-3.5" />
+              <Icon className={cn("size-3.5", isActive ? "text-primary-foreground" : "text-primary")} />
               <span>{isZh ? t.labelZh : t.labelEn}</span>
             </button>
           )
@@ -88,7 +88,7 @@ export function ProductDetailsTabs({
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-muted-foreground">
               <div className="flex items-start gap-2">
-                <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
+                <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
                 <span>
                   {isZh
                     ? `100% 正宗原產：由 ${product.originCountry} 優質原產地認證直採進口。`
@@ -96,7 +96,7 @@ export function ProductDetailsTabs({
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
+                <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
                 <span>
                   {isZh
                     ? "香港衛生檢驗標準：符合香港食物環境衛生署進口標準。"
@@ -105,7 +105,7 @@ export function ProductDetailsTabs({
               </div>
               {product.isVeg && (
                 <div className="flex items-start gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
                   <span>
                     {isZh
                       ? "純素 / 素食友善：全天然植物成分，素食者安心享用。"
@@ -115,7 +115,7 @@ export function ProductDetailsTabs({
               )}
               {product.isHalal && (
                 <div className="flex items-start gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
                   <span>
                     {isZh
                       ? "清真認證：嚴格符合國際 Halal 食物認證規範。"
