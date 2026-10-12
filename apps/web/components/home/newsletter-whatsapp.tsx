@@ -28,7 +28,7 @@ export function NewsletterWhatsapp() {
   return (
     <section
       aria-label={isZh ? "聯絡與訂閱" : "Contact and newsletter"}
-      className="mx-auto max-w-8xl ppx-4 pt-10 pb-4"
+      className="mx-auto max-w-8xl px-4 pt-10 pb-4"
     >
       {/* Customer support */}
       <div className="flex flex-col gap-4 border-y border-border py-5 sm:flex-row sm:items-center sm:justify-between sm:py-6">
