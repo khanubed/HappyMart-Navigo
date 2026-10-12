@@ -2,10 +2,11 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight, Check, MessageCircle } from "lucide-react"
+import { ArrowUpRight, Check } from "lucide-react"
 
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon"
 import { useAppSelector } from "@/hooks/store"
 
 export function NewsletterWhatsapp() {
@@ -33,8 +34,8 @@ export function NewsletterWhatsapp() {
       {/* Customer support */}
       <div className="flex flex-col gap-4 border-y border-border py-5 sm:flex-row sm:items-center sm:justify-between sm:py-6">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10 text-[#168C48]">
-            <MessageCircle className="size-5" />
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#25D366]/10 text-[#25D366]">
+            <WhatsAppIcon className="size-5 fill-[#25D366]" />
           </div>
 
           <div className="min-w-0">

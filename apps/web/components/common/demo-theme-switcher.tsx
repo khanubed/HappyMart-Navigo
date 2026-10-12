@@ -73,7 +73,7 @@ export function DemoThemeSwitcher() {
   return (
     <div
       ref={containerRef}
-      className="fixed bottom-20 right-4 z-50 lg:bottom-6 lg:right-6 transition-all select-none print:hidden"
+      className="fixed bottom-20 left-4 z-50 lg:bottom-6 lg:left-6 transition-all select-none print:hidden"
       aria-label="Theme Customizer"
     >
       {/* Floating Trigger Pill */}

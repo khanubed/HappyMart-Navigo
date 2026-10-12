@@ -8,6 +8,7 @@ import { parentCategories, categories, countries } from "@workspace/mock-data"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { setLanguage } from "@/features/ui/localeSlice"
 import { getThemeLogo } from "@/config/themes"
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function Footer() {
@@ -49,10 +50,15 @@ export function Footer() {
                 <MapPin className="size-4 shrink-0 text-primary" />
                 <span>Unit 802, Kwai Chung Logistics Centre, Hong Kong</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Phone className="size-4 shrink-0 text-primary" />
+              <a
+                href="https://wa.me/85251234567"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 font-medium transition-colors hover:text-[#25D366]"
+              >
+                <WhatsAppIcon className="size-4 shrink-0 text-[#25D366]" />
                 <span>+852 5123 4567 (WhatsApp / Support)</span>
-              </div>
+              </a>
               <div className="flex items-center gap-2">
                 <Mail className="size-4 shrink-0 text-primary" />
                 <span>support@happymart.hk</span>

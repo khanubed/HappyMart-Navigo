@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { toggleMobileMenu, toggleFilterSheet } from "@/features/ui/uiSlice"
 import { setLanguage } from "@/features/ui/localeSlice"
 import { getThemeLogo } from "@/config/themes"
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function MobileDrawer() {
@@ -236,9 +237,9 @@ export function MobileDrawer() {
             href="https://wa.me/85251234567"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-xl border border-success/30 bg-success/15 p-3 text-xs font-bold text-success"
+            className="flex items-center gap-2.5 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 p-3 text-xs font-bold text-[#168C48] dark:text-[#25D366] transition-colors hover:bg-[#25D366]/20"
           >
-            <Phone className="size-4" />
+            <WhatsAppIcon className="size-5 shrink-0 text-[#25D366]" />
             <span>WhatsApp: +852 5123 4567</span>
           </a>
         </div>

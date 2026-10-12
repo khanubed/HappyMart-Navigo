@@ -16,6 +16,7 @@ import {
 import { Button } from "@workspace/ui/components/button"
 import { Badge } from "@workspace/ui/components/badge"
 import { ThemeToggle } from "@/components/common/theme-toggle"
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon"
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { setLanguage } from "@/features/ui/localeSlice"
 import { openAuthModal, toggleMobileMenu } from "@/features/ui/uiSlice"
@@ -60,9 +61,9 @@ export function Header() {
               href="https://wa.me/85251234567"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 font-medium text-foreground transition-colors hover:text-primary"
+              className="flex items-center gap-1.5 font-medium text-foreground transition-colors hover:text-primary"
             >
-              <Phone className="size-3 text-success" />
+              <WhatsAppIcon className="size-3.5 text-[#25D366]" />
               <span>WhatsApp Order Support: +852 5123 4567</span>
             </a>
             <span className="text-border">|</span>
