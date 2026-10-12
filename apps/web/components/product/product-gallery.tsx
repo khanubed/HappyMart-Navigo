@@ -116,9 +116,9 @@ export function ProductGallery({
           type="button"
           onClick={() => setIsModalOpen(true)}
           aria-label="Zoom image"
-          className="absolute top-3 right-3 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background/80 text-muted-foreground shadow-2xs backdrop-blur-xs transition-colors hover:bg-background hover:text-foreground"
+          className="absolute top-3 right-3 flex size-8 cursor-pointer items-center justify-center rounded-full bg-background/80 text-primary shadow-2xs backdrop-blur-xs transition-colors hover:bg-background"
         >
-          <ZoomIn className="size-4" />
+          <ZoomIn className="size-4 text-primary" />
         </button>
 
         {/* Next / Prev Controls (only if multiple images) */}
@@ -128,17 +128,17 @@ export function ProductGallery({
               type="button"
               onClick={handlePrev}
               aria-label="Previous image"
-              className="absolute top-1/2 left-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background/90 text-foreground shadow-xs transition-transform hover:scale-110 active:scale-95"
+              className="absolute top-1/2 left-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background/90 text-primary shadow-xs transition-transform hover:scale-110 active:scale-95"
             >
-              <ChevronLeft className="size-4.5" />
+              <ChevronLeft className="size-4.5 text-primary" />
             </button>
             <button
               type="button"
               onClick={handleNext}
               aria-label="Next image"
-              className="absolute top-1/2 right-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background/90 text-foreground shadow-xs transition-transform hover:scale-110 active:scale-95"
+              className="absolute top-1/2 right-2.5 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background/90 text-primary shadow-xs transition-transform hover:scale-110 active:scale-95"
             >
-              <ChevronRight className="size-4.5" />
+              <ChevronRight className="size-4.5 text-primary" />
             </button>
           </>
         )}

@@ -86,7 +86,7 @@ export function BundleCard({
       )}
     >
       <div className="flex items-center gap-2 border-b border-border/70 pb-3">
-        <Sparkles className="size-4 text-accent" />
+        <Sparkles className="size-4 text-primary" />
         <h3 className="font-heading text-base sm:text-lg font-bold text-foreground">
           {isZh ? "常購組合推薦 (組合立省 10%)" : "Frequently Bought Together"}
         </h3>
@@ -163,8 +163,8 @@ export function BundleCard({
 
                 {/* Plus connector icon (Between products vertically on mobile, horizontally on desktop) */}
                 {idx < allItems.length - 1 && (
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground my-0.5 sm:my-0 shadow-2xs">
-                    <Plus className="size-4" />
+                  <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary my-0.5 sm:my-0 shadow-2xs">
+                    <Plus className="size-4 text-primary" />
                   </div>
                 )}
               </React.Fragment>
@@ -194,7 +194,7 @@ export function BundleCard({
             </div>
 
             {savingsCents > 0 && (
-              <p className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <p className="text-[11px] font-bold text-primary">
                 {isZh
                   ? `組合優惠立減 HK$${(savingsCents / 100).toFixed(2)} (節省 10%)`
                   : `Bundle Savings: HK$${(savingsCents / 100).toFixed(2)} (10% OFF)`}

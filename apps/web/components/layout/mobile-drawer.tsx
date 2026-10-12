@@ -21,10 +21,12 @@ import {
 import { useAppDispatch, useAppSelector } from "@/hooks/store"
 import { toggleMobileMenu, toggleFilterSheet } from "@/features/ui/uiSlice"
 import { setLanguage } from "@/features/ui/localeSlice"
+import { getThemeLogo } from "@/config/themes"
 import { cn } from "@workspace/ui/lib/utils"
 
 export function MobileDrawer() {
   const dispatch = useAppDispatch()
+  const themeId = useAppSelector((state) => state.theme.themeId)
   const isMenuOpen = useAppSelector((state) => state.ui.isMobileMenuOpen)
   const isFilterSheetOpen = useAppSelector(
     (state) => state.ui.isFilterSheetOpen
@@ -57,7 +59,7 @@ export function MobileDrawer() {
             <div className="flex items-center gap-2.5">
               <div className="relative size-8 shrink-0 overflow-hidden rounded-lg border border-border/50">
                 <Image
-                  src="/images/brand/Happymartlogo.png"
+                  src={getThemeLogo(themeId)}
                   alt="Happymart Supermarket Logo"
                   width={32}
                   height={32}

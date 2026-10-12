@@ -169,7 +169,7 @@ export function ProductCard({
           <Heart
             className={cn(
               "size-3.5 sm:size-4",
-              isWishlisted && "fill-rose-500 text-rose-500",
+              isWishlisted ? "fill-rose-500 text-rose-500" : "text-primary",
             )}
             strokeWidth={1.7}
           />

@@ -65,7 +65,7 @@ function BannerSlideContent({ banner, isPriority, isZh }: BannerSlideProps) {
         <div className="max-w-xl space-y-1.5 sm:space-y-2">
           {/* Eyebrow with decorative rule (inspired by section-header) */}
           {eyebrow && (
-            <div className="flex items-center gap-2 text-[11px] sm:text-xs font-bold tracking-wider uppercase text-emerald-400">
+            <div className="flex items-center gap-2 text-[11px] sm:text-xs font-bold tracking-wider uppercase text-accent">
               <span>{eyebrow}</span>
               <span className="h-px w-8 bg-white/40" />
             </div>

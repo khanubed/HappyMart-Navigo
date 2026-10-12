@@ -161,7 +161,7 @@ export function ProductReviews({ product, className }: ProductReviewsProps) {
             {isZh ? `共 ${totalReviews} 則評價` : `Based on ${totalReviews} reviews`}
           </span>
 
-          <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+          <span className="text-[11px] font-bold text-primary">
             {isZh ? "98% 顧客推薦此商品" : "98% of customers recommend this product"}
           </span>
         </div>
@@ -203,15 +203,15 @@ export function ProductReviews({ product, className }: ProductReviewsProps) {
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="rounded-full p-1 hover:bg-muted text-muted-foreground"
+              className="rounded-full p-1 hover:bg-muted text-primary"
             >
-              <X className="size-4" />
+              <X className="size-4 text-primary" />
             </button>
           </div>
 
           {submittedMessage ? (
-            <div className="rounded-xl bg-emerald-500/10 p-4 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold flex items-center gap-2">
-              <CheckCircle2 className="size-4" />
+            <div className="rounded-xl bg-primary/10 p-4 border border-primary/20 text-primary text-xs font-bold flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-primary" />
               <span>
                 {isZh
                   ? "感謝您的寶貴評價！已成功送出並更新至清單。"
@@ -321,8 +321,8 @@ export function ProductReviews({ product, className }: ProductReviewsProps) {
                     {rev.author}
                   </h5>
                   {rev.verifiedPurchase && (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="size-3" />
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-primary">
+                      <CheckCircle2 className="size-3 text-primary" />
                       <span>{isZh ? "香港已驗證購買" : "Verified HK Buyer"}</span>
                     </span>
                   )}
@@ -362,9 +362,9 @@ export function ProductReviews({ product, className }: ProductReviewsProps) {
               <button
                 type="button"
                 onClick={() => handleHelpful(rev.id)}
-                className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-[11px] font-semibold text-primary hover:underline transition-colors cursor-pointer"
               >
-                <ThumbsUp className="size-3" />
+                <ThumbsUp className="size-3 text-primary" />
                 <span>
                   {isZh ? "對我有幫助" : "Helpful"}
                   {(helpfulCounts[rev.id] || 0) > 0 && ` (${helpfulCounts[rev.id]})`}

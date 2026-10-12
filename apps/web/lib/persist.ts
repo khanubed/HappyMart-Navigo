@@ -1,6 +1,7 @@
 import { isAnyOf, type ListenerMiddlewareInstance } from '@reduxjs/toolkit';
 import { addRecentSearch, removeRecentSearch, clearRecentSearches } from '@/features/search/searchSlice';
-import { setThemeMode } from '@/features/ui/themeSlice';
+import { setThemeMode, setThemeId } from '@/features/ui/themeSlice';
+import { isValidThemeId, DEFAULT_THEME_ID } from '@/config/themes';
 import { setLanguage } from '@/features/ui/localeSlice';
 import { dismissAnnouncement, setCookieConsent } from '@/features/ui/uiSlice';
 import {
@@ -32,6 +33,8 @@ import {
 } from '@/features/cart/cartSlice';
 
 const THEME_KEY = 'happymart_theme';
+const THEME_MODE_KEY = 'happymart_theme_mode';
+const THEME_ID_KEY = 'happymart_theme_id';
 const LOCALE_KEY = 'happymart_locale';
 const SEARCH_KEY = 'happymart_recent_searches';
 const UI_PREFS_KEY = 'happymart_ui_prefs';
@@ -46,12 +49,15 @@ export function loadPersisted(): Record<string, any> {
   const preloaded: Record<string, any> = {};
 
   try {
-    const savedTheme = localStorage.getItem(THEME_KEY);
-    if (savedTheme && ['light', 'dark'].includes(savedTheme)) {
-      preloaded.theme = { mode: savedTheme };
-    } else {
-      preloaded.theme = { mode: 'light' };
-    }
+    const savedThemeMode = localStorage.getItem(THEME_MODE_KEY) || localStorage.getItem(THEME_KEY);
+    const mode = savedThemeMode && ['light', 'dark', 'system'].includes(savedThemeMode)
+      ? savedThemeMode
+      : 'light';
+
+    const savedThemeId = localStorage.getItem(THEME_ID_KEY);
+    const themeId = isValidThemeId(savedThemeId) ? savedThemeId : DEFAULT_THEME_ID;
+
+    preloaded.theme = { mode, themeId };
 
     const savedLocale = localStorage.getItem(LOCALE_KEY);
     if (savedLocale && ['en', 'zh-HK'].includes(savedLocale)) {
@@ -106,13 +112,27 @@ export function loadPersisted(): Record<string, any> {
 }
 
 export function persistListeners(listener: ListenerMiddlewareInstance) {
-  // Persist Theme changes
+  // Persist Theme Mode changes
   listener.startListening({
     actionCreator: setThemeMode,
     effect: (action) => {
       if (typeof window !== 'undefined') {
         try {
+          localStorage.setItem(THEME_MODE_KEY, action.payload);
           localStorage.setItem(THEME_KEY, action.payload);
+        } catch { }
+      }
+    },
+  });
+
+  // Persist Theme Template changes
+  listener.startListening({
+    actionCreator: setThemeId,
+    effect: (action) => {
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem(THEME_ID_KEY, action.payload);
+          document.documentElement.setAttribute('data-theme', action.payload);
         } catch { }
       }
     },
