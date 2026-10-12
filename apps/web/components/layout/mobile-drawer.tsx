@@ -147,24 +147,7 @@ export function MobileDrawer() {
           </Link>
 
           {/* Shop By Country */}
-          <div className="space-y-2">
-            <h4 className="text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
-              {isZh ? "國家專區" : "Shop By Country"}
-            </h4>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {countries.map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/countries/${c.code.toLowerCase()}`}
-                  onClick={handleClose}
-                  className="flex items-center gap-1.5 truncate rounded-lg border border-border/80 bg-card p-2 font-semibold text-foreground hover:bg-muted"
-                >
-                  <span>{c.flag}</span>
-                  <span className="truncate">{isZh ? c.nameZh : c.nameEn}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
+  
 
           {/* Featured Brands */}
           <div className="space-y-2">
@@ -230,6 +213,25 @@ export function MobileDrawer() {
             </ul>
           </div>
         </div>
+
+                <div className="space-y-2">
+            <h4 className="text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
+              {isZh ? "國家專區" : "Shop By Country"}
+            </h4>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              {countries.map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/countries/${c.code.toLowerCase()}`}
+                  onClick={handleClose}
+                  className="flex items-center gap-1.5 truncate rounded-lg border border-border/80 bg-card p-2 font-semibold text-foreground hover:bg-muted"
+                >
+                  <span>{c.flag}</span>
+                  <span className="truncate">{isZh ? c.nameZh : c.nameEn}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
 
         {/* WhatsApp Footer */}
         <div className="mt-6 border-t border-border pt-6">

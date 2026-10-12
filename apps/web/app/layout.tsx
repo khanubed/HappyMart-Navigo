@@ -30,13 +30,6 @@ export default function RootLayout({
         geist.variable
       )}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('happymart_theme_id');var v=['fresh-market','market-red','urban-blue','pantry-earth','modern-plum'];var id=v.indexOf(t)!==-1?t:'fresh-market';document.documentElement.setAttribute('data-theme',id);}catch(e){document.documentElement.setAttribute('data-theme','fresh-market');}})();`,
-          }}
-        />
-      </head>
       <body suppressHydrationWarning>
         <StoreProvider>
           <ThemeProvider>
